@@ -5,11 +5,11 @@ const autoprefixer = require('autoprefixer'); //自动添加前缀,再看看用�
 
 module.exports = {
     context: path.resolve(process.cwd(), "client"),    
-    entry: ["babel-polyfill", "./modules/xxx.js"],
+    entry: ["./modules"],
     output: {
         publicPath: '/dist',
         path: path.resolve(process.cwd(), "dist"),
-        filename: "transformRuntime.js",
+        filename: "index.js",
     },
     module: {
         rules: [
@@ -27,7 +27,7 @@ module.exports = {
                 // }]
             },
             {
-                test: /\.scss$/,
+                test: /\.less$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', {
@@ -35,7 +35,14 @@ module.exports = {
                         options: {
                             plugins: () => [require('autoprefixer')({ browsers: ['ie >= 9', 'last 2 versions', '> 10%'] })]
                         }
-                    }, 'sass-loader']
+                    }, {
+                        loader:'less-loader',
+                        options:{
+                            includePaths: [
+                                path.resolve("../styles")
+                            ]
+                        }
+                    }]
                 }),
             },
             {
@@ -47,5 +54,10 @@ module.exports = {
             }
 
         ]
-    }
+    },
+    plugins: [
+      new ExtractTextPlugin({
+          filename:'index.css'
+      }),
+    ]
 }
