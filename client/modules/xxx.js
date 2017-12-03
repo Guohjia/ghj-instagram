@@ -1,5 +1,5 @@
 import React from 'react';
-import test from './test.less';
+import '../styles/test.less'
 
 export default class Test extends React.Component{
     constructor(props){
