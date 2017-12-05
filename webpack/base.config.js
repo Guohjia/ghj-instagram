@@ -2,10 +2,14 @@ const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin"); //分离css文件 //这个插件再看看用法
 // const HtmlWebpackPlugin = require('html-webpack-plugin'); //js/css文件填充 //这个插件再看看用法
 const autoprefixer = require('autoprefixer'); //自动添加前缀,再看看用法
+const webpack = require('webpack');
 
 module.exports = {
     context: path.resolve(process.cwd(), "client"),    
-    entry: ["./modules"],
+    entry:{
+        main:"./modules",
+        vendor: ['react', 'react-dom']
+    },
     output: {
         publicPath: '/dist',
         path: path.resolve(process.cwd(), "dist"),
@@ -59,5 +63,9 @@ module.exports = {
       new ExtractTextPlugin({
           filename:'index.css'
       }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name:'vendor',
+        filename: '[name].js'
+      })
     ]
 }
