@@ -15,7 +15,7 @@ export default class CPT_1 extends React.Component{
                     我是组件一{this.state.color}，我们类名开发时都取一样但是颜色不同
                 </div>
                 <div className="global">
-                    我是全局的颜色,都一样
+                    我是全的颜色
                 </div>
             </div>
         )
