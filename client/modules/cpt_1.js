@@ -11,12 +11,10 @@ export default class CPT_1 extends React.Component{
     render(){
         return (
             <div className={Style.test}>
-                <div className="local"> 
-                    我是组件一{this.state.color}，我们类名开发时都取一样但是颜色不同
-                </div>
-                <div className="global">
-                    我是全的颜色
-                </div>
+                <span>这张图片大于8k,url-loader返回编码后的路径直接发请求处理图片</span>
+                <div className="img img_test1"></div>
+                <span>这张图片小于8k,url-loader转为file-loader处理,base64,打包进入css,节约请求,但是css文件会变大</span>
+                <div className="img img_test2"></div>
             </div>
         )
     }

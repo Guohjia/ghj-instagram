@@ -11,7 +11,7 @@ module.exports = {
         vendor: ['react', 'react-dom']
     },
     output: {
-        publicPath: '/dist',
+        publicPath: '/dist/',
         path: path.resolve(process.cwd(), "dist"),
         filename: "index.js",
     },
@@ -51,9 +51,10 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|jpeg|gif|woff|woff2|tff|eot|svg|swf)$/,
-                loader: 'file-loader',
+                loader: 'url-loader',
                 options: {
-                    name: 'assers/[name]_[sha512:hash:base64:7].[ext]'  //base64处理,不用url-loader?这里配置多大图片内转base64?
+                  limit: 8192,
+                  name: '[name]_[sha512:hash:base64:7].[ext]'
                 }
             }
 
