@@ -53,7 +53,7 @@ module.exports = {
                 test: /\.(png|jpg|jpeg|gif|woff|woff2|tff|eot|svg|swf)$/,
                 loader: 'url-loader',
                 options: {
-                  limit: 8192,
+                  limit: 8192, //小于8kb base64处理否则返回路径图片走请求
                   name: '[name]_[sha512:hash:base64:7].[ext]'
                 }
             }
