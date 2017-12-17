@@ -1,12 +1,12 @@
-import React from 'react';
-import Style from '../styles/cpt_1.less'
+import React from "react";
+import Style from "../styles/cpt_1.less";
 
 export default class CPT_1 extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
         this.state={
-            color:'红色'
-        }
+            color:"红色"
+        };
     }
     render(){
         return (
@@ -19,13 +19,13 @@ export default class CPT_1 extends React.Component{
                 </p>
                 <div className="imgWrap img_test1"></div>
                 <span>background-cover</span>
-                    <p>cover tells the browser to make sure the image always covers the entire container, 
+                <p>cover tells the browser to make sure the image always covers the entire container, 
                         even if it has to stretch the image or cut a little bit off one of the edges.
-                        <br/>(宽高必须都铺满或超过容器宽高,先去填满容器宽高中的大的一方面,另外一方面自适应) 
-                    </p>
+                    <br/>(宽高必须都铺满或超过容器宽高,先去填满容器宽高中的大的一方面,另外一方面自适应) 
+                </p>
                 <div className="imgWrap img_test2"></div>
             </div>
-        )
+        );
     }
 }
 

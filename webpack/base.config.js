@@ -22,13 +22,12 @@ module.exports = {
                 exclude:/node_modules/, //确定需要exclude?
                 use:[{
                   loader:'babel-loader'
+                },{
+                  loader:'eslint-loader',  //规范检查,再看看用法
+                  options:{
+                    fix:true
+                  }
                 }]
-                // },{
-                //   loader:'eslint-loader',  //规范检查,再看看用法
-                //   options:{
-                //     fix:true
-                //   }
-                // }]
             },
             {
                 test: /\.less$/,
