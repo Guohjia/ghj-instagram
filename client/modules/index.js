@@ -1,10 +1,13 @@
 import React from "react";
-import { render } from "react-dom";
-import CPT_1 from "./cpt_1";
+import ReactDOM from "react-dom"
+import { Counter } from "./cpt_1";
+import {store} from "../store/store"
+import { Provider} from "react-redux"
 
-const router = (
-    <div>
-        <CPT_1 />
-    </div>
+
+ReactDOM.render(
+    <Provider store={store}>
+        <Counter />
+    </Provider>,
+    document.getElementById("root")
 );
-render(router, document.getElementById("root"));
