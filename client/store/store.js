@@ -8,4 +8,4 @@ import { play } from "./reducer"
 
 let store=createStore(play)
 
-module.exports={store};
+export default store;
