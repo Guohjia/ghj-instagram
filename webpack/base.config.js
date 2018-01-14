@@ -8,7 +8,7 @@ module.exports = {
     context: path.resolve(process.cwd(), "client"),    
     entry:{
         main:"./modules",
-        vendor: ['react', 'react-dom']
+        vendor: ['react', 'react-dom','antd']
     },
     output: {
         publicPath: '/dist/',
