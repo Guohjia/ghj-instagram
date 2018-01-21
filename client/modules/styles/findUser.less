@@ -1,0 +1,56 @@
+:local(.findUser){
+    max-width: 935px;
+    margin: 0 auto;
+    margin-top: 140px;
+    .hd{
+        margin-bottom: 15px;
+        h2{
+            color: #999;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        a{
+            float: right;
+        }
+    }
+    ul{
+        display: flex;
+        justify-content: space-around;
+        padding-left: 0;
+        li{
+            text-align: center;
+            border: solid 1px #efefef;
+            flex: 1 0 0;
+            padding: 25px 0;
+            &:nth-of-type(2){
+                margin:0 30px;
+            }
+            .name{
+                margin: 10px 0;
+                .icon{
+                    display: inline-block;
+                    background-position: -417px -203px;
+                    height: 18px;
+                    width: 18px;
+                    background-image: url(/imgs/sprite_icon.png);
+                    background-repeat: no-repeat;
+                    text-indent: 110%;
+                    overflow: hidden;
+                    margin-left: 7px;
+                    vertical-align: bottom
+                }
+                a{
+                    color: #333;
+                }
+            }
+        }
+    }
+    .user_img{
+        display: block;
+        img{
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+        }
+    }
+}

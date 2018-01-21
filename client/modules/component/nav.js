@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Input } from "antd";
-import Style from "./styles/nav.less"
+import Style from "../styles/nav.less";
+
 export default class Nav extends Component{
     constructor(props){
         super(props)
         this.state={
             transformClass: "m-nav"
         }
-        this.onScroll=this.onScroll.bind(this)
+        this.onScroll=this.onScroll.bind(this);
     }
-
 
     render(){
         return (
@@ -18,8 +18,8 @@ export default class Nav extends Component{
                     <div className="u-icon icon_left">
                         <a href="#">Ghj_Instagram</a>
                     </div>
-                    <div className="search">
-                        <Input placeholder="搜索" />
+                    <div className="search" onClick={this.onInput}>
+                        <Input placeholder="搜索"/>
                     </div>
                     <div className="u-icon icon_right">
                         <a href="#">推荐用户</a>
