@@ -1,7 +1,7 @@
 import React from "react";
-
-import Nav from "./nav";
-import FindUser from "./findUser"
+import "./instagram.less";
+import Nav from "../nav/nav";
+import FindUser from "../findUser/findUser"
 
 
 let Instagram=()=>{

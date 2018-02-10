@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import { Button } from "antd";
-import Style from "../styles/findUser.less";
+import Style from "./findUser.less";
 
 import User_IMG1 from "../../imgs/curry.jpg";
 import User_IMG2 from "../../imgs/van.jpg";
