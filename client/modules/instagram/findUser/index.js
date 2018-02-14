@@ -1,10 +1,11 @@
 import React,{Component} from "react";
 import { Button } from "antd";
-import Style from "./findUser.less";
+import Style from "./index.less";
 
-import User_IMG1 from "../../imgs/curry.jpg";
-import User_IMG2 from "../../imgs/van.jpg";
-import User_IMG3 from "../../imgs/syz.jpg";
+//这里的图片以后可以改成点击切换用请求去抓抓图片;
+import User_IMG1 from "../../../imgs/curry.jpg";
+import User_IMG2 from "../../../imgs/van.jpg";
+import User_IMG3 from "../../../imgs/syz.jpg";
 
 export default class FindUser extends Component{
     constructor(props){
@@ -56,3 +57,4 @@ export default class FindUser extends Component{
         )
     }
 }
+

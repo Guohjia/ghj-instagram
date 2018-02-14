@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Input } from "antd";
-import Style from "./nav.less";
+import Style from "./index.less";
 
 export default class Nav extends Component{
     constructor(props){

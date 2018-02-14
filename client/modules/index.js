@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 
 import "antd/dist/antd.less";
 
-import Instagram from "./instagram/instagram"
+import Instagram from "./instagram"
 
 
 ReactDOM.render(
@@ -14,3 +14,4 @@ ReactDOM.render(
     </Provider>,
     document.getElementById("root")
 );
+
