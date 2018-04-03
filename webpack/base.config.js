@@ -6,7 +6,8 @@ const webpack = require('webpack');
 
 console.log('webpack  compiling...')
 module.exports = {
-    context: path.resolve(process.cwd(), "client"),    
+    context: path.resolve(process.cwd(), "client"),
+    devtool: 'cheap-module-source-map',    
     entry:{
         main:"./src",
         vendor: ['react', 'react-dom']
@@ -22,7 +23,10 @@ module.exports = {
                 test:/\.(js|jsx)$/,
                 exclude:/node_modules/, //确定需要exclude?
                 use:[{
-                  loader:'babel-loader'
+                  loader:'babel-loader',
+                  options:{
+                    cacheDirectory: true,
+                  }
                 },{
                   loader:'eslint-loader',  //规范检查,再看看用法
                   options:{
