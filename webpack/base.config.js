@@ -6,15 +6,15 @@ const webpack = require('webpack');
 
 console.log('webpack  compiling...')
 module.exports = {
-    context: path.resolve(process.cwd(), "../client"),    
+    context: path.resolve(process.cwd(), "client"),    
     entry:{
         main:"./src",
         vendor: ['react', 'react-dom','antd']
     },
     output: {
-        publicPath: '/static/',  //公共路径, 用来配置所有资源前面增加的路径,Maybe can be a cdn path
-        path: path.resolve(process.cwd(), "/"),
-        filename: "index.js",
+        publicPath: '/',  //公共路径, 用来配置所有资源前面增加的路径,Maybe can be a cdn path
+        path: path.resolve(process.cwd(), "dist"),
+        filename: "js/index.js",
     },
     module: {
         rules: [
@@ -26,7 +26,7 @@ module.exports = {
                 },{
                   loader:'eslint-loader',  //规范检查,再看看用法
                   options:{
-                    fix:true
+                    fix:true,
                   }
                 }]
             },
@@ -40,12 +40,12 @@ module.exports = {
                             plugins: () => [require('autoprefixer')({ browsers: ['ie >= 9', 'last 2 versions', '> 10%'] })]
                         }
                     }, {
-                        loader:'less-loader',
-                        options:{
-                            includePaths: [
-                                path.resolve("../styles")
-                            ]
-                        }
+                        loader:'less-loader'
+                        // options:{
+                        //     includePaths: [
+                        //         path.resolve("dist/styles")
+                        //     ]
+                        // }
                     }]
                 }),
             },
@@ -54,7 +54,8 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                   limit: 8192, //小于8kb base64处理否则返回路径图片走请求
-                  name: '[name]_[sha512:hash:base64:7].[ext]'
+                  name: '[name]_[sha512:hash:base64:7].[ext]',
+                  outputPath:'images/'
                 }
             }
 
@@ -62,17 +63,17 @@ module.exports = {
     },
     plugins: [
       new ExtractTextPlugin({
-          filename:'index.css'
+          filename:'css/index.css'
       }),
       new webpack.optimize.CommonsChunkPlugin({
         name:'vendor',
-        filename: '[name].js'
-      }),
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin() 
-    //   new webpack.optimize.UglifyJsPlugin() //生产环境
+        filename: 'js/[name].js'
+      })
+    //   new webpack.HotModuleReplacementPlugin(),
+    //   new webpack.NoEmitOnErrorsPlugin() ,
+    //   new webpack.optimize.UglifyJsPlugin(), //生产环境
     //   new HtmlWebpackPlugin({
-    //     template: 'src/index.html',
+    //     template: '../server/view/index.html',
     //     //页面模板的地址, 支持一些特殊的模板, 比如jade, ejs, handlebar等
     //     inject: true,
     //     //文件插入的位置, 可以选择在 body 还是 head 中

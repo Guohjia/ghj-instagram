@@ -1,65 +1,38 @@
-
-
 const Koa = require('koa');
 // const pug = require('pug');
 const views = require('koa-views');
 const path = require('path');
-const webpackConfig = require('../webpack/base.config.js');
-const webpack = require('webpack');
-const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
-// const webpackMiddleware = require('webpack-dev-middleware');
-// const WebpackDevServer = require('webpack-dev-server');  
-const compiler = webpack(webpackConfig);
 const app = new Koa();
+const appstatic = require('koa-static');
+/* 静态文件服务 */
 
+app.use(appstatic(path.resolve(__dirname,'../dist')));
 
-app.use(devMiddleware(compiler, {
-    // display no info to console (only warnings and errors)
-    noInfo: false,
-
-    // display nothing to the console
-    quiet: false,
-
-    // switch into lazy mode
-    // that means no watching, but recompilation on every request
-    // lazy: true,
-
-    // watch options (only lazy: false)
-    watchOptions: {
-        aggregateTimeout: 300,
-        poll: true
-    },
-
-    // public path to bind the middleware to
-    // use the same as in webpack
-    publicPath: webpackConfig.output.publicPath,
-
-    // custom headers
-    headers: { "X-Custom-Header": "yes" },
-
-    // options for formating the statistics
-    stats: {
-        colors: true
-    }
-}))
-app.use(hotMiddleware(compiler, {
-  // log: console.log,
-  // path: '/__webpack_hmr',
-  // heartbeat: 10 * 1000
+/* 模板渲染*/
+app.use(views(path.resolve(__dirname,'./view'),{
+    extension: 'pug'
 }))
 
 
-app.use(views(path.resolve(__dirname,'../client/src'),{
-    extension: 'html'
-}))
 
+const Router = require('koa-router');
+const router = new Router();
 
-app.use(async (ctx,next) => {
+router.get('/', async (ctx, next) => {
     await ctx.render('index',{
         pageTitle:'Instagram'
     })
-})
+  });
 
+// router.get('/test', (ctx, next) => {
+//    console.log('test')
+//   ctx.response.data = {test:'i am pack'}
+// });
+
+
+app
+  .use(router.routes())
+  .use(router.allowedMethods());
 
 
 app.listen(3000, err => {

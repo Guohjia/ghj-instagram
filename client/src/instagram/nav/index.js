@@ -8,7 +8,8 @@ export default class Nav extends Component{
         this.state={
             transformClass: "m-nav"
         }
-        this.onScroll=this.onScroll.bind(this);
+        this.onScroll = this.onScroll.bind(this);
+        this.testFetch = this.testFetch.bind(this)
     }
 
     render(){
@@ -18,17 +19,24 @@ export default class Nav extends Component{
                     <div className="u-icon icon_left">
                         <a href="#">Ghj_Instagram</a>
                     </div>
-                    <div className="search" onClick={this.onInput}>
+                    <div className="search">
                         <Input placeholder="搜索"/>
                     </div>
                     <div className="u-icon icon_right">
-                        <a href="#">推荐用户</a>
+                        <a href="#" onClick={this.testFetch}>推荐用户</a>
                         <a href="#">动态</a>
                         <a href="#">个人主页</a>
                     </div>
                 </div>
             </div>     
         )
+    }
+
+    testFetch(){
+        console.log("fetch")
+        fetch("/test",{test:1}).then(res=>{
+            console.log(res)
+        })    
     }
 
     onScroll(event){
