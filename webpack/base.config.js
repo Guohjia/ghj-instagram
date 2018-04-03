@@ -9,7 +9,7 @@ module.exports = {
     context: path.resolve(process.cwd(), "client"),    
     entry:{
         main:"./src",
-        vendor: ['react', 'react-dom','antd']
+        vendor: ['react', 'react-dom']
     },
     output: {
         publicPath: '/',  //公共路径, 用来配置所有资源前面增加的路径,Maybe can be a cdn path
@@ -31,7 +31,7 @@ module.exports = {
                 }]
             },
             {
-                test: /\.less$/,
+                test: /\.(css|less)$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', {
