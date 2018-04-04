@@ -19,15 +19,19 @@ const Router = require('koa-router');
 const router = new Router();
 
 router.get('/', async (ctx, next) => {
+    // if(!login){return redirect('/login')}
     await ctx.render('index',{
         pageTitle:'Instagram'
     })
   });
 
-router.get('/test', async (ctx, next) => {
-    console.log('I got Test Request')
-    // console.log(ctx.res)
-    ctx.body={a:1};
+router.get('/login', async (ctx, next) => {
+    await ctx.render('login',{
+        pageTitle:'Instagram'
+    })
+    // console.log('I got Test Request')
+    // // console.log(ctx.res)
+    // ctx.body={a:1};
 });
 
 
