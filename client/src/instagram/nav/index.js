@@ -22,16 +22,11 @@ export default class Nav extends Component{
                     <div className="search">
                         <Input placeholder="搜索"/>
                     </div>
-                    {/* <Router> */}
                     <div className="u-icon icon_right">
                         <a href="#">推荐用户</a>
-                        {/* <Link to="/detail">推荐用户</Link> */}
                         <a href="#">动态</a>
                         <a href="#">个人主页</a>
-                        {/* <NavLink to={`${url}/explore-groups`} activeClassName='exp_nav_active' className='exp_nav_link'>Groups</NavLink> */}
-                        {/* <Route path="/detail" component={Detail}/> */}
                     </div>
-                    {/* </Router> */}
                 </div>
             </div>     
         )

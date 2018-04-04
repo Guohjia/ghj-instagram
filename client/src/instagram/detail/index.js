@@ -6,9 +6,16 @@ import { icon as Icon } from "antd";
 export default class Detail extends Component{
     constructor(props){
         super(props);
+        this.detailId;
     }
     
+    componentWillMount(){
+        this.detailId=window.location.href.split("=")[1];
+    }
+
+    
     render(){
+        // {this.detailId?} //没有detailId重定向到主页
         return (
             <div className={Style.detail}> 
                 <div className="m-shadow">
@@ -18,7 +25,7 @@ export default class Detail extends Component{
                             <img src=""/>
                         </div>
                         <div className="m-ct">
-                            这里是评论内容
+                            这里是评论
                         </div>
                     </div>
                 </div>
