@@ -26,9 +26,8 @@ router.get('/', async (ctx, next) => {
 
 router.get('/test', async (ctx, next) => {
     console.log('I got Test Request')
-    // await ctx.render('index',{
-    //     pageTitle:'Instagram'
-    // })
+    // console.log(ctx.res)
+    ctx.body={a:1};
 });
 
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios"
 import { Input } from "antd";
 import Style from "./index.less";
 
@@ -33,10 +34,13 @@ export default class Nav extends Component{
     }
 
     testFetch(){
-        console.log("fetch")
-        fetch("/test",{test:1}).then(res=>{
-            console.log(res)
-        })    
+        axios.get("/test")
+            .then(function (response) {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            }); 
     }
 
     onScroll(event){
