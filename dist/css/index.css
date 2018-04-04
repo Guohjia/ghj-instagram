@@ -3662,6 +3662,14 @@ a.ant-btn-sm {
   background: rgba(0, 0, 0, 0.75);
   z-index: 999;
 }
+._3h-jMZp4bWb7BLBBTcAIEL .m-shadow .Icon-close {
+  font-size: 30px;
+  color: #fff;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;
+}
 ._3h-jMZp4bWb7BLBBTcAIEL .m-detail {
   height: 83%;
   width: 70%;

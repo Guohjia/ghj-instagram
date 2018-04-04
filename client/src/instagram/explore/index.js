@@ -35,7 +35,7 @@ export default class Explore extends Component{
 
     render(){
         let ExploreList=this.data.map((item,index)=>{
-            const url=`/detail/Id=${item.userId}`  //其实应该是动态id
+            const url=`/detail/${item.userId}`  //其实应该是动态id
             return (
                 <LazyLoad key={item.userId} height={200} offset={100} once>
                     <li key={index} className="item">

@@ -18,12 +18,7 @@ app.use(views(path.resolve(__dirname,'./view'),{
 const Router = require('koa-router');
 const router = new Router();
 
-router.get('/', async (ctx, next) => {
-    // if(!login){return redirect('/login')}
-    await ctx.render('index',{
-        pageTitle:'Instagram'
-    })
-  });
+
 
 router.get('/login', async (ctx, next) => {
     await ctx.render('login',{
@@ -34,6 +29,19 @@ router.get('/login', async (ctx, next) => {
     // ctx.body={a:1};
 });
 
+router.get('/detail/:id', async (ctx, next) => {
+    // if(!login){return redirect('/login')}
+    await ctx.render('index',{
+        pageTitle:'Instagram'
+    })
+  });
+
+router.get('/', async (ctx, next) => {
+    // if(!login){return redirect('/login')}
+    await ctx.render('index',{
+        pageTitle:'Instagram'
+    })
+});
 
 app
   .use(router.routes())
