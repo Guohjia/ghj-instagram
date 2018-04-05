@@ -1,15 +1,22 @@
 :local(.Comment){
-    text-align: center;
-    padding-left: 20px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     .m-comment{
-        text-align: left;
+        flex: 1;
+        overflow-y: scroll;
         .comment_item{
             .cm_Name{
                 margin-right: 5px;
             }
+            .cm_ct{
+                color:#333;
+            }
         }
     }
     .loadMore{
-        color: #999
+        color: #999;
+        text-align: center;
     }
 }

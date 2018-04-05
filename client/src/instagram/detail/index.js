@@ -31,7 +31,7 @@ export default class Detail extends Component{
                             <div className="user">
                                 <img className="user_pic" src={User_IMG1} />
                                 <span className="user_name">stephencurry30   •</span>
-                                <a className="attention_btn">关注</a>
+                                <span className="attention_btn btn">关注</span>
                             </div>
                             <Comment />
                         </div>
