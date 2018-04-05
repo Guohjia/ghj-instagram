@@ -4,20 +4,17 @@ const views = require('koa-views');
 const path = require('path');
 const app = new Koa();
 const appstatic = require('koa-static');
-/* 静态文件服务 */
+const Router = require('koa-router');
+const router = new Router();
 
+
+/* 静态文件服务 */
 app.use(appstatic(path.resolve(__dirname,'../dist')));
 
 /* 模板渲染*/
 app.use(views(path.resolve(__dirname,'./view'),{
     extension: 'pug'
 }))
-
-
-
-const Router = require('koa-router');
-const router = new Router();
-
 
 
 router.get('/login', async (ctx, next) => {

@@ -23,6 +23,36 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%,-50%);
-        border:1px solid;
+        display: flex;
+        background: #fff;
+        .m-pv{
+            height: 100%;
+            width: 63%;
+            .pv{
+                height: 100%;
+                width: 100%;
+            }
+        }
+        .m-ct{
+            flex: 1;
+            .user{
+                margin: 20px 20px 0 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #efefef;
+                .user_pic{
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                }
+                .user_name{
+                    margin-left: 15px;
+                    margin-right: 5px
+                }
+                .attention_btn{
+                    color: #3897f0;
+                    font-weight: bold;
+                }
+            }
+        }
     }
 }
