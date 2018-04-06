@@ -9,7 +9,7 @@ module.exports = {
     context: path.resolve(process.cwd(), "client"),
     devtool: 'cheap-module-source-map',    
     entry:{
-        main:"./src",
+        main:"./js",
         vendor: ['react', 'react-dom']
     },
     output: {
