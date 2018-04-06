@@ -6,6 +6,6 @@ import comment from "./reducer/comment"
 //     play,color
 // });
 
-let store=createStore(comment)
+let store=createStore(comment,{LIKE:false}) //preloadedState 服务器获取
 
 export default store;
