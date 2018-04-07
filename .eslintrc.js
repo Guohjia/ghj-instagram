@@ -11,8 +11,9 @@ module.exports = {
         "eslint:recommended",  //启用推荐的规则
         "plugin:react/recommended"
     ],
+    'parser': 'babel-eslint',
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": 2017,
         "sourceType": "module", //ECMAScript 模块。
         "ecmaFeatures": {
             "jsx": true,

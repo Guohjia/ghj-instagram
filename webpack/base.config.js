@@ -23,10 +23,10 @@ module.exports = {
                 test:/\.(js|jsx)$/,
                 exclude:/node_modules/, //确定需要exclude?
                 use:[{
-                  loader:'babel-loader',
-                  options:{
-                    cacheDirectory: true,
-                  }
+                    loader:'babel-loader'
+                //   options:{
+                //     cacheDirectory: true,
+                //   }
                 },{
                   loader:'eslint-loader',  //规范检查,再看看用法
                   options:{
