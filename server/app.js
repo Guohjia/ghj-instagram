@@ -55,7 +55,6 @@ router.post('/api/actionLike', async (ctx, next) => {
 router.get('/api/actionGetLike', async (ctx, next) => {
     //获取Id操作数据库,操作成功返回状态码
     let ctx_query = ctx.query
-    // console.log(ctx.query)
 
     ctx.body = ctx_query
     // if(!login){return redirect('/login')}
