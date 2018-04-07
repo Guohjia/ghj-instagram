@@ -6,10 +6,11 @@ import { icon as Icon } from "antd";
 import { connect } from "react-redux";
 import actionLike from "../../../../store/action/comment";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 @connect(
     store => {
-        // console.log(store);
+        //console.log(store);
         return {
             LIKE:store.LIKE
         }
@@ -17,8 +18,26 @@ import PropTypes from "prop-types";
     dispatch => {
         return {
             onLike:id=>{
-                console.log(id)
-                dispatch(actionLike(id))
+                axios.get("/api/actionGetLike", {
+                    params:{
+                        activityId:id
+                    }
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        dispatch(actionLike(id))
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                axios.post("/api/actionLike",{
+                    activityId:id
+                })
+                // //   post('/api/get-users-to-explore')
+                // //     .then(p => dispatch({ type: 'GET_USERS_TO_EXPLORE', payload: p.data }))
+                // //     .catch(e => console.log(e))
+                // console.log(id)
+                // dispatch(actionLike(id))
             }
         };
     }
@@ -27,6 +46,10 @@ export default class CommentAction extends Component{
     constructor(props){
         super(props);
     }
+
+    // componentWillReceiveProps(){
+    //     console.log("componentWillReceiveProps")
+    // }
 
     render(){
         // console.log(this.props);
