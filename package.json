@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "rm -rf .cache && nodemon server/app.js",
     "dev": "webpack --config webpack/base.config.js  --progress --colors --watch -d",
-    "prod": "webpack --config webpack/prod.config.js --progress --colors --optimize-minimize -p"
+    "prod": "webpack --config webpack/base.config.js --progress --colors --optimize-minimize -p"
   },
   "keywords": [
     "react",
