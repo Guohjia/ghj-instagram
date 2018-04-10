@@ -1,8 +1,7 @@
 import React,{Component} from "react";
 import Style from "./index.less";
 import { icon as Icon } from "antd";
-import { BrowserRouter as Router,Route,Link } from "react-router-dom";
-import Detail from "../detail";
+import { Link } from "react-router-dom";
 import Waypoint from "react-waypoint";
 
 //这里的图片以后可以改成点击切换用请求去抓抓图片;
@@ -80,21 +79,16 @@ export default class Explore extends Component{
         return (
             <div className={Style.explore}> 
                 <h2 className="title">探索</h2>
-                <Router>
-                    <div>
-                        <div className="m-ExploreList">
-                            {ExploreList}
-                        </div>
-                        <Waypoint topOffset={800} onEnter={this._handleWaypointEnter}>
-                            <div className="u-infinite">
-                                <Icon type="loading" style={{ fontSize: 30}}/>
-                            </div>
-                        </Waypoint>
-                        <div className="m-detail">
-                            <Route path="/detail" component={Detail}/>
-                        </div>
+                <div>
+                    <div className="m-ExploreList">
+                        {ExploreList}
                     </div>
-                </Router>
+                    <Waypoint topOffset={800} onEnter={this._handleWaypointEnter}>
+                        <div className="u-infinite">
+                            <Icon type="loading" style={{ fontSize: 30}}/>
+                        </div>
+                    </Waypoint>
+                </div>
             </div>
         )
     }
