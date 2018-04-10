@@ -1,20 +1,24 @@
 const Koa = require('koa');
 // const pug = require('pug');
-const { connect } = require('./database/init');
+// const { connect } = require('./database/init');
 const views = require('koa-views');
 const path = require('path');
 const appstatic = require('koa-static');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
-
+const favicon = require('koa-favicon');
 (async () => {
-    await connect();
+    // await connect(); //数据库
 
     const app = new Koa();
     const router = new Router();
 
     /* 静态文件服务 */
     app.use(appstatic(path.resolve(__dirname, '../dist')));
+
+    app.use(favicon(
+        path.resolve(__dirname, '../dist/images/favicon.png')
+      ))
 
     /* 模板渲染*/
     app.use(views(path.resolve(__dirname, './view'), {
