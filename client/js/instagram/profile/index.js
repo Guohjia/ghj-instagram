@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Style from "./index.less";
 import { Tabs } from "antd";
-import { icon as Icon } from "antd";
+import UserSetting from "./userSetting";
 import User_IMG1 from "../../../imgs/curry.jpg";
 
 export default class Profile  extends Component {
@@ -20,7 +20,7 @@ export default class Profile  extends Component {
                     <div className="m-infor-right">
                         <div className="m-name">
                             <span className="name">GuohJia</span>
-                            <Icon type="tool" className="setting"/>
+                            <UserSetting />
                             {/* 这里添加modal退出登陆用的 */}
                         </div>
                         <div className="m-activity-num">

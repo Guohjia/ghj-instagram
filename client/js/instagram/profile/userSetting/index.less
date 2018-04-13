@@ -1,0 +1,33 @@
+:local(.UserSetting){
+    display: inline-block;
+    #shadow{
+        background: rgba(0, 0, 0, 0.5)
+    }
+    .u-Control{
+        font-size: 30px;
+        color:#000;
+        cursor: pointer;
+    }
+    .m-options{
+        position: absolute;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+        min-width: 510px;
+        .exit{
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+        li{
+            background: #fff;
+            color: #262626;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 50px;
+            text-align: center;
+            &:hover{
+                background-color: #efefef;
+            }
+        }
+    }
+}
