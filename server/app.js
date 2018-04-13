@@ -45,6 +45,12 @@ const favicon = require('koa-favicon');
     //     })
     // });
 
+    router.get('/profile', async (ctx, next) => {
+        // if(!login){return redirect('/login')}
+        await ctx.render('index', {
+            pageTitle: 'Instagram'
+        })
+    });
 
     router.get('/detail/:id', async (ctx, next) => {
         // if(!login){return redirect('/login')}

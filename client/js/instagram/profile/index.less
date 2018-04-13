@@ -1,3 +1,59 @@
 :local(.Profile){
+    max-width: 935px;
+    margin: 0 auto;
     margin-top: 140px;
+    .m-infor{
+        display: flex;
+        align-items: center;
+        .m-Pic{
+            img{
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+            }
+        }
+        .m-infor-left{
+            margin: 0 80px;
+        }
+        .m-infor-right{
+                .name{
+                    font-size: 30px;
+                    margin-right: 10px;
+                    color:#262626;
+                }
+                .setting{
+                    font-size: 30px;
+                    color:#000;
+                }
+                .m-activity-num{
+                    margin-top: 15px;
+                    a{
+                        color:#262626;
+                        font-size: 16px;
+                    }
+                    .follower{
+                        margin:0 20px;
+                    }
+                }
+        }
+    }
+    .m-activity{
+        .ant-tabs-nav-wrap{
+            margin-top: 30px;
+            .ant-tabs-nav{
+                position: relative;
+                left: 50%;
+                transform: translate(-50%,0);
+                .ant-tabs-tab-active{
+                    color:#000;
+                }
+                .ant-tabs-ink-bar{
+                    background-color: #000;
+                }
+                .ant-tabs-tab:hover{
+                    color:#000;
+                }
+            }
+        }
+    }
 }
