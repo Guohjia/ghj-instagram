@@ -9,7 +9,6 @@ export default class UserSetting extends Component {
         this.state = {
             setting:false
         }
-        this.showModal = this.showModal.bind(this)
     }
 
     render(){
@@ -28,9 +27,5 @@ export default class UserSetting extends Component {
                 {/* 这里添加modal退出登陆用的 */}
             </div>
         )
-    }
-
-    showModal(){
-
     }
 }
