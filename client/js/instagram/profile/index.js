@@ -3,14 +3,22 @@ import Style from "./index.less";
 import { Tabs } from "antd";
 import UserSetting from "./userSetting";
 import User_IMG1 from "../../../imgs/curry.jpg";
+// import { Redirect } from "react-router-dom";
 
 export default class Profile  extends Component {
     constructor(props){
-        super(props)
+        super(props);
+        // this.state = {
+        //     redirectToReferrer:true  //这里应该根据什么来判断?=> cookie?
+        // }
     }
 
     render(){
         const TabPane = Tabs.TabPane;
+        // const { redirectToReferrer } =this.state
+        // if (redirectToReferrer) {
+        //     // return <Redirect to="/login" />;
+        // }
         return (
             <div className={Style.Profile}>
                 <div className="m-infor">

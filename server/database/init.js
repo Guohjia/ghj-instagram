@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db = 'mongodb://localhost/instagam';
+const db = 'mongodb://localhost/instagram';
 
 
 mongoose.Promise = global.Promise;

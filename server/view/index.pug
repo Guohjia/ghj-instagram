@@ -2,8 +2,9 @@ doctype html
 html(lang="zh-CN")
     head
         title= pageTitle
-        link(rel="stylesheet" href="/css/index.css") 
+        //- link(rel="stylesheet" href="/css/index.css") 
     body
         #root
-    script(type='text/javascript',src='/js/vendor.js')
-    script(type='text/javascript',src='/js/index.js')
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    script(type='text/javascript',src='/js/main.js')

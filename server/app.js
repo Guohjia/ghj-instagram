@@ -1,14 +1,17 @@
 const Koa = require('koa');
 // const pug = require('pug');
-// const { connect } = require('./database/init');
+const { connect } = require('./database/init');
+const User = require('./database/model/user');
 const views = require('koa-views');
 const path = require('path');
 const appstatic = require('koa-static');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const favicon = require('koa-favicon');
+
+
 (async () => {
-    // await connect(); //数据库
+    await connect(); //数据库
 
     const app = new Koa();
     const router = new Router();
@@ -66,13 +69,36 @@ const favicon = require('koa-favicon');
         })
     });
 
-    router.post('/api/actionLike', async (ctx, next) => {
-        //获取Id操作数据0库,操作成功返回状态码
-        console.log(ctx.request.body)
+    //注册
+    router.post('/api/signup', async (ctx, next) => {
+        // console.log(ctx.request.body);
+        let { userName,password,remember } = ctx.request.body;
+        let _user = {
+            userName:userName,
+            password:password
+        };
+        User.find({userName: userName},(err,user)=>{
+            if(err) console.log(err);
+            if(user.length>0) {
+                console.log(user);
+                console.log('已经注册了直接登陆即可')
+                return;
+            }else{
+                let user = new User(_user);
+                user.save((err,user)=>{
+                    if(err) console.log(err);
+                    // console.log(user)
+                })
+            }
+        })
+
         ctx.body = {
             code: 200
         }
-        // if(!login){return redirect('/login')}
+        // console.log('重定向')
+        // ctx.redirect('/');
+        // ctx.status = 301;
+        //重定向没实现啊，表单输入记录是怎么实现的,如何清除,如何配合密码记住,如何记住最近一次输入
     });
 
     router.get('/api/actionGetLike', async (ctx, next) => {
