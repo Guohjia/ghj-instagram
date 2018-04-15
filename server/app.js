@@ -1,7 +1,7 @@
 const Koa = require('koa');
 // const pug = require('pug');
 const { connect } = require('./database/init');
-const User = require('./database/model/user');
+// const User = require('./database/model/user');
 const views = require('koa-views');
 const path = require('path');
 const appstatic = require('koa-static');
@@ -11,7 +11,7 @@ const favicon = require('koa-favicon');
 
 
 (async () => {
-    await connect(); //数据库
+    // await connect(); //数据库
 
     const app = new Koa();
     const router = new Router();

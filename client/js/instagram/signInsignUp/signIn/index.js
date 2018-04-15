@@ -35,7 +35,10 @@ class NormalLoginForm extends Component {
         // }
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className={Style.SignInSignUp}>
+            <div className={Style.SignIn}>
+                <div className="u-title">
+                    <h1 className="u-titleImg"></h1>
+                </div>
                 <Form onSubmit={this.handleSubmit} className="login-form">
                     <FormItem>
                         {getFieldDecorator("userName", {
@@ -62,7 +65,7 @@ class NormalLoginForm extends Component {
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Log in
                         </Button>
-                            Or <a href="">register now!</a>
+                            Or <span onClick={this.props.ToSignUp} className="ToSignUp">Register now!</span>
                     </FormItem>
                 </Form>
             </div>
@@ -72,7 +75,8 @@ class NormalLoginForm extends Component {
 
 
 NormalLoginForm.propTypes = {
-    form: PropTypes.object.isRequired
+    form: PropTypes.object.isRequired,
+    ToSignUp: PropTypes.func.isRequired
     // goback: PropTypes.func.isRequired,
     // children: PropTypes.object.isRequired
 }
