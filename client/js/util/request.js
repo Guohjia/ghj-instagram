@@ -12,8 +12,14 @@ const signUp = params => {
     })
 }
 
+const signOut = () => {
+    return axios.get("/api/signout").catch(function (error) {
+        console.log(error);
+    })
+}
 
 module.exports = {
     signIn,
-    signUp
+    signUp,
+    signOut
 };

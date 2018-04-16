@@ -22,7 +22,7 @@ export default class Nav extends Component{
                         <Input placeholder="搜索"/>
                     </div>
                     <div className="u-icon icon_right">
-                        <a href="javascript:void(0)">推荐用户</a>
+                        <a href="/">首页</a>
                         <a href="javascript:void(0)">动态</a>
                         <a href="/profile">个人主页</a>
                     </div>

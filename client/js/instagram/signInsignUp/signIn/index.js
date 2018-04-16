@@ -17,10 +17,15 @@ class NormalLoginForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log("Received values of form: ", values);
-                signIn(values).then(()=>{
-                    console.log("登录成功");
-                    // window.location.href = "/";
+                // console.log("Received values of form: ", values);
+                signIn(values).then((res)=>{
+                    if(res.data.message === "Match"){
+                        window.location.href = "/";
+                    }else if(res.data.message === "UNEXIT"){
+                        console.log("用户不存在,先注册")
+                    }else{
+                        console.log("密码不对")
+                    }
                     // this.setState({
                     //     redirectToReferrer:true
                     // })

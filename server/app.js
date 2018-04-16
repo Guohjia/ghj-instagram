@@ -53,7 +53,7 @@ app.use(favicon(
     });
 
     router.get('/profile', async (ctx, next) => {
-        // if(!ctx.session){return redirect('/login')}
+        if(!ctx.session.user){return ctx.redirect('/login')}
         //根据_id去数据库中查询帖子、关注着、正在关注等相关数据
         // console.log(ctx.session)
         await ctx.render('profile', {
@@ -151,6 +151,11 @@ app.use(favicon(
 
 
 
+    //登出
+    router.get('/api/signout', async (ctx, next) => {
+        delete ctx.session.user;
+        // return ctx.redirect('/'); =>为什么不行？只负责重定向,不负责刷新页面？
+    })
 
     router.get('/api/actionGetLike', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码
