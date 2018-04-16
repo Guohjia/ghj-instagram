@@ -11,6 +11,7 @@ module.exports = {
     entry:{
         main:"./js",
         login:"./js/instagram/signInsignUp",
+        profile:"./js/instagram/profile",
         vendor: ['react', 'react-dom']
     },
     output: {

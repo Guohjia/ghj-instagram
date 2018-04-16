@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Input } from "antd";
 import Style from "./index.less";
-import { Link } from "react-router-dom";
 
 export default class Nav extends Component{
     constructor(props){
@@ -23,11 +22,9 @@ export default class Nav extends Component{
                         <Input placeholder="搜索"/>
                     </div>
                     <div className="u-icon icon_right">
-                        {/* <a href="#">推荐用户</a> */}
-                        <Link to="/">推荐用户</Link>
-                        <a href="#">动态</a>
-                        <Link to="/profile">个人主页</Link>
-                        {/* <a href="#">个人主页</a> */}
+                        <a href="javascript:void(0)">推荐用户</a>
+                        <a href="javascript:void(0)">动态</a>
+                        <a href="/profile">个人主页</a>
                     </div>
                 </div>
             </div>     

@@ -45,16 +45,23 @@ app.use(favicon(
     await connect(); //数据库
 
     router.get('/login', async (ctx, next) => {
-        console.log(ctx.session)
+        //已经登陆的情况下访问该页面?
+        // console.log(ctx.session)
         await ctx.render('login', {
             pageTitle: 'Instagram'
         })
     });
 
     router.get('/profile', async (ctx, next) => {
-        // if(!login){return redirect('/login')}
-        await ctx.render('index', {
-            pageTitle: 'Instagram'
+        // if(!ctx.session){return redirect('/login')}
+        //根据_id去数据库中查询帖子、关注着、正在关注等相关数据
+        // console.log(ctx.session)
+        await ctx.render('profile', {
+            pageTitle: 'Instagram',
+            userName:ctx.session.user.userName,
+            post:5,
+            follower:6,
+            following:10
         })
     });
 
