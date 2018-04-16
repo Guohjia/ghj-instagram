@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 import Style from "./index.less";
-import { signUp } from "../../../util/request";
+import { signIn } from "../../../util/request";
 import PropTypes from "prop-types";
 // import { Redirect } from "react-router-dom";
 const FormItem = Form.Item;
@@ -18,8 +18,8 @@ class NormalLoginForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log("Received values of form: ", values);
-                signUp(values).then(()=>{
-                    console.log("注册成功");
+                signIn(values).then(()=>{
+                    console.log("登录成功");
                     // window.location.href = "/";
                     // this.setState({
                     //     redirectToReferrer:true

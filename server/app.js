@@ -1,52 +1,55 @@
 const Koa = require('koa');
 // const pug = require('pug');
 const { connect } = require('./database/init');
-// const User = require('./database/model/user');
+const User = require('./database/model/user');
 const views = require('koa-views');
 const path = require('path');
 const appstatic = require('koa-static');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const favicon = require('koa-favicon');
+const session = require('koa-session');
+const app = new Koa();
+const router = new Router();
 
+/* session */
+app.keys = ['ins secret hurr']; 
 
+const CONFIG = {
+    key: 'koa:ins-sess', 
+    maxAge: 86400000,
+    overwrite: true, 
+    signed: true, 
+    rolling: false, 
+    renew: false, 
+  };
+  
+app.use(session(CONFIG, app));
+
+/* 静态文件服务 */
+app.use(appstatic(path.resolve(__dirname, '../dist')));
+
+app.use(favicon(
+    path.resolve(__dirname, '../dist/images/favicon.png')
+))
+
+ /* 模板渲染*/
+ app.use(views(path.resolve(__dirname, './view'), {
+     extension: 'pug'
+ }))
+
+ /* body解析 */
+ app.use(bodyParser());
+ 
 (async () => {
-    // await connect(); //数据库
-
-    const app = new Koa();
-    const router = new Router();
-
-    /* 静态文件服务 */
-    app.use(appstatic(path.resolve(__dirname, '../dist')));
-
-    app.use(favicon(
-        path.resolve(__dirname, '../dist/images/favicon.png')
-      ))
-
-    /* 模板渲染*/
-    app.use(views(path.resolve(__dirname, './view'), {
-        extension: 'pug'
-    }))
-
-    /* body解析 */
-    app.use(bodyParser());
+    await connect(); //数据库
 
     router.get('/login', async (ctx, next) => {
+        console.log(ctx.session)
         await ctx.render('login', {
             pageTitle: 'Instagram'
         })
-        // console.log('I got Test Request')
-        // // console.log(ctx.res)
-        // ctx.body={a:1};
     });
-
-
-    // router.get('/profile', async (ctx, next) => {
-    //     // if(!login){return redirect('/login')}
-    //     await ctx.render('index', {
-    //         pageTitle: 'Instagram'
-    //     })
-    // });
 
     router.get('/profile', async (ctx, next) => {
         // if(!login){return redirect('/login')}
@@ -63,7 +66,7 @@ const favicon = require('koa-favicon');
     });
 
     router.get('/', async (ctx, next) => {
-        // if(!login){return redirect('/login')}
+        console.log(ctx.session)
         await ctx.render('index', {
             pageTitle: 'Instagram'
         })
@@ -71,15 +74,14 @@ const favicon = require('koa-favicon');
 
     //注册
     router.post('/api/signup', async (ctx, next) => {
-        // console.log(ctx.request.body);
         let { userName,password,remember } = ctx.request.body;
         let _user = {
             userName:userName,
             password:password
         };
-        User.find({userName: userName},(err,user)=>{
+        User.findOne({userName: userName},(err,user)=>{
             if(err) console.log(err);
-            if(user.length>0) {
+            if(user) {
                 console.log(user);
                 console.log('已经注册了直接登陆即可')
                 return;
@@ -95,11 +97,53 @@ const favicon = require('koa-favicon');
         ctx.body = {
             code: 200
         }
-        // console.log('重定向')
-        // ctx.redirect('/');
-        // ctx.status = 301;
-        //重定向没实现啊，表单输入记录是怎么实现的,如何清除,如何配合密码记住,如何记住最近一次输入
     });
+
+
+    //登录
+    router.post('/api/signin', async (ctx, next) => {
+        let { userName,password,remember } = ctx.request.body;
+        let ifMatch,_id;
+        let matchUser = await User.findOne({userName: userName}).catch(err => {console.log(err);});
+        if(matchUser) {
+            await matchUser.comparePassword(password,(err,isMatch)=>{
+                if(err){console.log(err)};
+                if(isMatch){
+                    ifMatch=true;
+                    _id=matchUser._id;
+                    console.log('登录成功')
+                }else{
+                    ifMatch=false;
+                    console.log('密码输入有误');
+                }
+            })
+            if(ifMatch){
+                ctx.session.user = {
+                    id:_id,
+                    userName:userName
+                }
+                console.log('Match')
+                ctx.body = {
+                    code: 200,
+                    message:'Match'
+                }
+            }else{
+                console.log('NoMatch')
+                ctx.body = {
+                    code: 200,
+                    message:'NoMatch'
+                }
+            }
+        }else{
+            ctx.body = {
+                code: 401,
+                message:'UNEXIT'
+            }
+        }
+    });
+
+
+
 
     router.get('/api/actionGetLike', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码
