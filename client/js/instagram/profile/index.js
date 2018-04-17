@@ -32,7 +32,7 @@ export default class Profile  extends Component {
                         </div>
                         <div className="m-infor-right">
                             <div className="m-name">
-                                <span className="name">{userName}</span>
+                                <h1 className="name">{userName}</h1>
                                 <UserSetting />
                                 {/* 这里添加modal退出登陆用的 */}
                             </div>

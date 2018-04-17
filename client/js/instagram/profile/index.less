@@ -1,7 +1,9 @@
+body{background-color: #fafafa;}
 :local(.Profile){
     max-width: 935px;
     margin: 0 auto;
     margin-top: 140px;
+    .u-clear::after{content: '';display: block;clear: both;}
     .m-infor{
         display: flex;
         align-items: center;
@@ -20,6 +22,13 @@
                     font-size: 30px;
                     margin-right: 10px;
                     color:#262626;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    max-width: 430px;
+                    display: inline-block;
+                    margin-bottom: -5px;
+                    font-weight: 349;
                 }
                 .m-activity-num{
                     margin-top: 15px;
