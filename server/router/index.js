@@ -36,10 +36,9 @@ const AppRouter = (app)=>{
     });
     
     router.get('/', async (ctx, next) => {
-        console.log(ctx.session)
-        await ctx.render('index', {
-            pageTitle: 'Instagram'
-        })
+        let params={pageTitle:'Instagram'};
+        if(ctx.session.user){params.userName = ctx.session.user.userName}
+        await ctx.render('index', params)
     });
     
     //注册
