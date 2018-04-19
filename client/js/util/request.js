@@ -2,6 +2,8 @@ import axios from "axios";
 // import md5 from "blueimp-md5";
 // import sha1 from "js-sha1";
 
+
+//登录相关
 const signIn = params => {
     return axios.post("/api/signin", params).catch(function (error) {
         console.log(error);
@@ -48,8 +50,18 @@ const signOut = () => {
 // })
 // }
 
+
+
+//发布动态
+const postActivity = params => {
+    console.log(params)
+    return axios.post("/api/post",params).catch(function (error) {
+        console.log(error);
+    })
+}
 module.exports = {
     signIn,
     signUp,
-    signOut
+    signOut,
+    postActivity
 };

@@ -4,8 +4,8 @@ html(lang="zh-CN")
         title= pageTitle
         script(type='text/javascript').
             (function(){
-                if(!'#{userName}'){return;}
-                sessionStorage.setItem('isUser','#{userName}');
+                if(!'#{userId}'){return;}
+                sessionStorage.setItem('isUser','#{userId}');
             })()
         //- link(rel="stylesheet" href="/css/index.css") 
     body

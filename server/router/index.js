@@ -1,7 +1,12 @@
 const Router = require('koa-router');
 const router = new Router();
 const User = require('../database/model/user');
+const Post = require('../database/model/Post');
 
+/**
+ * 
+ * @param {code} 数据库存储失败 503 
+ */
 const AppRouter = (app)=>{
     app
     .use(router.routes())
@@ -37,7 +42,7 @@ const AppRouter = (app)=>{
     
     router.get('/', async (ctx, next) => {
         let params={pageTitle:'Instagram'};
-        if(ctx.session.user){params.userName = ctx.session.user.userName}
+        if(ctx.session.user){params.userId = ctx.session.user.id}
         await ctx.render('index', params)
     });
     
@@ -123,12 +128,37 @@ const AppRouter = (app)=>{
     router.get('/api/actionGetLike', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码
         let ctx_query = ctx.query
-        ctx.body = ctx_query
+        let user = new User(ctx.request.body);
+        user.save((err,user)=>{
+            if(err) console.log(err);
+            // console.log(user)
+        })
         // if(!login){return redirect('/login')}
     });
 
-    //收藏
-    //评论
+
+    router.post('/api/post', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码
+        let _PostParams = JSON.parse(JSON.stringify(ctx.request.body));
+        let _Post = new Post(_PostParams);
+        let resErr;
+        await _Post.save((err,_Post)=>{
+            if(err){resErr=err;}
+        })
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,发布失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200 
+            } 
+        }
+    });
+
+    //发布动态,收藏,评论
+    
 }
 
 module.exports = AppRouter;

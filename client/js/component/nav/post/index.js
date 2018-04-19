@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Style from "./index.less";
 import { message,Input,Button } from "antd";
-import PicturesWall from "./Upload"
+import PicturesWall from "./Upload";
+import { postActivity } from "../../../util/request";
+import PropTypes from "prop-types";
 
 export default class Post extends Component{
     constructor(props){
@@ -50,8 +52,27 @@ export default class Post extends Component{
         let { content,pvUrl } = this.state;
         let post = {
             content:content,
-            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl+"?imageView2/1/w/300/h/300/format/png/q/75|imageslim"
+            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl+"?imageView2/1/w/300/h/300/format/png/q/75|imageslim",
+            commentNum: 0,
+            likeNum: 0,
+            collectNum: 0,
+            from:sessionStorage.getItem("isUser")
         }
-        console.log(post)
+        
+        postActivity(post).then((res)=>{
+            console.log(res);
+            if(res.data.code === 200){
+                message.success("动态发布成功");
+                this.setState(Object.assign(this.state,{pubLoading:false}));
+                this.props.modalClose();
+            }else{
+                message.error("动态发布失败"+res.message);
+            }
+        })
     }
+}
+
+
+Post.propTypes = {
+    modalClose: PropTypes.func.isRequired
 }

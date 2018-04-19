@@ -23,7 +23,7 @@ export default class Nav extends Component{
                         <a href="javascript:void(0)" className="bg_icon" onClick={this.toPost}>Ghj_Instagram</a>
                         <Modal goback={()=>{this.setState(Object.assign(this.state,{post:false}))}} show={this.state.post}>
                             <div className="m-post">
-                                <Post />
+                                <Post modalClose={()=>{this.setState(Object.assign(this.state,{post:false}))}}/>
                             </div>
                         </Modal>
                     </div>
@@ -47,6 +47,7 @@ export default class Nav extends Component{
         this.setState(Object.assign(this.state,{post:true}))
     }
     onScroll(event){
+        if(!event.srcElement.scrollingElement){return;}
         let scroll_Y=event.srcElement.scrollingElement.scrollTop;
         scroll_Y>0?this.setState(Object.assign(this.state,{
             transformClass:"m-nav m-nav-scroll"
