@@ -136,7 +136,7 @@ const AppRouter = (app)=>{
         // if(!login){return redirect('/login')}
     });
 
-
+    //发布动态 
     router.post('/api/post', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码
         let _PostParams = JSON.parse(JSON.stringify(ctx.request.body));
@@ -156,8 +156,29 @@ const AppRouter = (app)=>{
             } 
         }
     });
+    
+    //获取动态
+    router.get('/api/getPosts', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码ctx.query
+        let { number,fromIndex } = ctx.query;
+        let resPosts,resErr;
+        await Post.find({},(err,posts)=>{
+            if(err){resErr=err;return;}
+            if(posts){resPosts = posts}
+        }).skip(+fromIndex).limit(+number)
 
-    //发布动态,收藏,评论
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200,
+                posts:resPosts 
+            } 
+        }
+    });
     
 }
 

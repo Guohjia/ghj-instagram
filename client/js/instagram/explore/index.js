@@ -1,96 +1,75 @@
 import React,{Component} from "react";
 import Style from "./index.less";
-import { icon as Icon } from "antd";
+import { icon as Icon ,message } from "antd";
 import { Link } from "react-router-dom";
 import Waypoint from "react-waypoint";
+import { getPosts } from "../../util/request"
 
-//这里的图片以后可以改成点击切换用请求去抓抓图片;
-import User_IMG1 from "../../../imgs/curry.jpg";
-import User_IMG2 from "../../../imgs/trombone_2.jpg";
-import User_IMG3 from "../../../imgs/trombone_3.jpg";
 
 export default class Explore extends Component{
     constructor(props){
         super(props)
         this.state = {
-            data:[
-                [
-                    {
-                        userPic:User_IMG1,
-                        userId:"30",
-                        userName:"Stephen Curry"
-                    },
-                    {
-                        userPic:User_IMG2,
-                        userId:"12",
-                        userName:"Jorgen van Rijen"
-                    },
-                    {
-                        userPic:User_IMG3,
-                        userId:"17",
-                        userName:"孙燕姿"
-                    }
-                ],
-                [
-                    {
-                        userPic:User_IMG1,
-                        userId:"30",
-                        userName:"Stephen Curry"
-                    },
-                    {
-                        userPic:User_IMG2,
-                        userId:"15",
-                        userName:"Jorgen van Rijen"
-                    },
-                    {
-                        userPic:User_IMG3,
-                        userId:"47",
-                        userName:"孙燕姿"
-                    }
-                ]
-            ]
+            posts:[],
+            postsNum:0 //索引位置
         };
         this._handleWaypointEnter=this._handleWaypointEnter.bind(this); 
     }
 
-    render(){
-        let ExploreList=this.state.data.map((item,index)=>{
-            // const url=`/detail/${item[index].userId}`  //其实应该是动态id
-            return (
-                <ul className="m_row" key={index}>
-                    <li className="item">
-                        <Link to={`/detail/${item[0].userId}`}>
-                            <img src={item[0].userPic} />
-                        </Link>
-                    </li>
-                    <li className="item">
-                        <Link to={`/detail/${item[1].userId}`}>
-                            <img src={item[1].userPic} />
-                        </Link>
-                    </li>
-                    <li className="item">
-                        <Link to={`/detail/${item[2].userId}`}>
-                            <img src={item[2].userPic} />
-                        </Link>
-                    </li>
-                </ul>
-            )
+    componentDidMount(){
+        let params = {
+            number:6,
+            fromIndex:0
+        }
+        getPosts(params).then((res)=>{
+            if(res.data.code === 200){
+                let posts= res.data.posts.splice(0,3);
+                this.setState({
+                    posts:[posts.splice(0,3),res.data.posts],
+                    postsNum:6
+                })
+            }else{
+                message.error(res.data.message)
+            }
         })
-        return (
-            <div className={Style.explore}> 
-                <h2 className="title">探索</h2>
-                <div>
-                    <div className="m-ExploreList">
-                        {ExploreList}
-                    </div>
-                    <Waypoint topOffset={800} onEnter={this._handleWaypointEnter}>
-                        <div className="u-infinite">
-                            <Icon type="loading" style={{ fontSize: 30}}/>
+    }
+    render(){
+        if(this.state.posts.length === 0){
+            return <div><Icon type="loading" style={{ fontSize: 30}}/></div>;
+        }else{
+            let ExploreList=this.state.posts.map((item,index)=>{
+                return (
+                    <ul className="m_row" key={index}>
+                        {
+                            item.map((item)=>{
+                                return (
+                                    <li className="item" key={item._id}>
+                                        <Link to={`/detail/${item._id}`}>
+                                            <img src={item.pvUrl} />
+                                        </Link>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                )
+            })
+            return (
+                <div className={Style.explore}> 
+                    <h2 className="title">探索</h2>
+                    <div>
+                        <div className="m-ExploreList">
+                            {ExploreList}
                         </div>
-                    </Waypoint>
+                        <Waypoint topOffset={800} onEnter={this._handleWaypointEnter}>
+                            <div className="u-infinite">
+                                <Icon type="loading" style={{ fontSize: 30}}/>
+                            </div>
+                        </Waypoint>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 
     _handleWaypointEnter(){

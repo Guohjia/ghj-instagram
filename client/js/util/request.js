@@ -51,10 +51,15 @@ const signOut = () => {
 // }
 
 
+//抓取动态 => 每次抓6条;
+const getPosts = params => {
+    return axios.get("/api/getPosts",{params:params}).catch(function (error) {
+        console.log(error);
+    })
+}
 
 //发布动态
-const postActivity = params => {
-    console.log(params)
+const sendPost = params => {
     return axios.post("/api/post",params).catch(function (error) {
         console.log(error);
     })
@@ -63,5 +68,6 @@ module.exports = {
     signIn,
     signUp,
     signOut,
-    postActivity
+    getPosts,
+    sendPost
 };
