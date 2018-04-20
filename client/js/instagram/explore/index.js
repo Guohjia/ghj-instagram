@@ -23,9 +23,10 @@ export default class Explore extends Component{
         }
         getPosts(params).then((res)=>{
             if(res.data.code === 200){
-                let posts= res.data.posts.splice(0,3);
+                let posts;
+                res.data.posts.length>3?posts=[res.data.posts.splice(0,3),res.data.posts]:posts=[res.data.posts.splice(0,3)];
                 this.setState({
-                    posts:[posts.splice(0,3),res.data.posts],
+                    posts:posts,
                     postsNum:6
                 })
             }else{
@@ -35,7 +36,7 @@ export default class Explore extends Component{
     }
     render(){
         if(this.state.posts.length === 0){
-            return <div><Icon type="loading" style={{ fontSize: 30}}/></div>;
+            return <div className="u-center" style={{ top: 500 }}><Icon type="loading" style={{ fontSize: 30}}/></div>;
         }else{
             let ExploreList=this.state.posts.map((item,index)=>{
                 return (

@@ -8,7 +8,13 @@ const  UserSchema = new mongoose.Schema({
         unique: true,
         type: String
     },
+    follower:Array,
+    following:Array,
     password: String,
+    collect:Array,
+    post:Array,
+    like:Array,
+    phone:Number,
     meta: {
         createAt: {
             type: Date,

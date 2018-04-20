@@ -5,13 +5,25 @@ import axios from "axios";
 
 //登录相关
 const signIn = params => {
-    return axios.post("/api/signin", params).catch(function (error) {
+    let options ={
+        method: "POST",
+        // headers:{ "content-type": "application/x-www-form-urlencoded" },
+        data:params,
+        url:"/api/signin"
+    }
+    return axios(options).catch(function (error) {
         console.log(error);
     })
 }
 
 const signUp = params => {
-    return axios.post("/api/signup", params).catch(function (error) {
+    let options ={
+        method: "POST",
+        // headers:{ "content-type": "application/x-www-form-urlencoded" },
+        data:params,
+        url:"/api/signup"
+    }
+    return axios(options).catch(function (error) {
         console.log(error);
     })
 }
@@ -58,16 +70,51 @@ const getPosts = params => {
     })
 }
 
+//抓取一条动态
+const getPost = params => {
+    return axios.get("/api/getPost",{params:params}).catch(function (error) {
+        console.log(error);
+    })
+}
+
 //发布动态
 const sendPost = params => {
     return axios.post("/api/post",params).catch(function (error) {
         console.log(error);
     })
 }
+
+//点赞
+const Like = params => {
+    params.userId=sessionStorage.getItem("isUser");
+    return axios.post("/api/like",params).catch(function (error) {
+        console.log(error);
+    })
+}
+
+//取消赞
+const unLike = params => {
+    params.userId=sessionStorage.getItem("isUser");
+    return axios.post("/api/unLike",params).catch(function (error) {
+        console.log(error);
+    })
+}
+
+//获取登录用户详情
+const getUser = params => {
+    return axios.get("/api/getUser",{params:params}).catch(function (error) {
+        console.log(error);
+    })
+}
+
 module.exports = {
     signIn,
     signUp,
     signOut,
     getPosts,
-    sendPost
+    getPost,
+    sendPost,
+    getUser,
+    Like,
+    unLike
 };

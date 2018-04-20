@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Style from "./index.less";
 import { message,Input,Button } from "antd";
 import PicturesWall from "./Upload";
-import { postActivity } from "../../../util/request";
+import { sendPost } from "../../../util/request";
 import PropTypes from "prop-types";
 
 export default class Post extends Component{
@@ -59,8 +59,7 @@ export default class Post extends Component{
             from:sessionStorage.getItem("isUser")
         }
         
-        postActivity(post).then((res)=>{
-            console.log(res);
+        sendPost(post).then((res)=>{
             if(res.data.code === 200){
                 message.success("动态发布成功");
                 this.setState(Object.assign(this.state,{pubLoading:false}));

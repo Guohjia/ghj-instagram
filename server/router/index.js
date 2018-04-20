@@ -48,61 +48,65 @@ const AppRouter = (app)=>{
     
     //注册
     router.post('/api/signup', async (ctx, next) => {
-        let { userName,password,remember } = ctx.request.body;
+        let { userName,password,phone} = ctx.request.body;
         let _user = {
             userName:userName,
-            password:password
-        };
-        User.findOne({userName: userName},(err,user)=>{
-            if(err) console.log(err);
+            password:password,
+            phone:phone
+        },signed,resErr;
+        await User.findOne({userName: userName},(err,user)=>{
             if(user) {
-                console.log(user);
-                console.log('已经注册了直接登陆即可')
+                signed = true;
                 return;
             }else{
                 let user = new User(_user);
                 user.save((err,user)=>{
-                    if(err) console.log(err);
-                    // console.log(user)
+                    if(err) resErr=err;
                 })
             }
         })
-    
-        ctx.body = {
-            code: 200
+        
+        if(!signed){
+            if(resErr){
+                ctx.body = {
+                    code: 503,
+                    message:'数据库异常'
+                }
+            }else{
+                ctx.body = {
+                    code: 200
+                }
+            }
+        }else{
+            ctx.body = {
+                code: 401,
+                message:'注册用户已经存在'
+            }
         }
     });
     
     
     //登录
     router.post('/api/signin', async (ctx, next) => {
-        let { userName,password,remember } = ctx.request.body;
-        let ifMatch,_id;
+        let { userName,password } = ctx.request.body; //,remember ?
+        let ifMatch;
         let matchUser = await User.findOne({userName: userName}).catch(err => {console.log(err);});
         if(matchUser) {
             await matchUser.comparePassword(password,(err,isMatch)=>{
                 if(err){console.log(err)};
                 if(isMatch){
                     ifMatch=true;
-                    _id=matchUser._id;
-                    console.log('登录成功')
                 }else{
                     ifMatch=false;
-                    console.log('密码输入有误');
                 }
             })
             if(ifMatch){
-                ctx.session.user = {
-                    id:_id,
-                    userName:userName
-                }
-                console.log('Match')
+                ctx.session.user = matchUser;
                 ctx.body = {
                     code: 200,
                     message:'Match'
                 }
             }else{
-                console.log('NoMatch')
                 ctx.body = {
                     code: 200,
                     message:'NoMatch'
@@ -123,18 +127,6 @@ const AppRouter = (app)=>{
         delete ctx.session.user;
         // return ctx.redirect('/'); =>为什么不行？只负责重定向,不负责刷新页面？
     })
-    
-    //点赞
-    router.get('/api/actionGetLike', async (ctx, next) => {
-        //获取Id操作数据库,操作成功返回状态码
-        let ctx_query = ctx.query
-        let user = new User(ctx.request.body);
-        user.save((err,user)=>{
-            if(err) console.log(err);
-            // console.log(user)
-        })
-        // if(!login){return redirect('/login')}
-    });
 
     //发布动态 
     router.post('/api/post', async (ctx, next) => {
@@ -157,7 +149,7 @@ const AppRouter = (app)=>{
         }
     });
     
-    //获取动态
+    //获取所有动态
     router.get('/api/getPosts', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码ctx.query
         let { number,fromIndex } = ctx.query;
@@ -175,11 +167,102 @@ const AppRouter = (app)=>{
         }else{
             ctx.body = {
                 code:200,
-                posts:resPosts 
+                posts:resPosts || []
             } 
         }
     });
     
+    //获取一条动态
+    router.get('/api/getPost', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码ctx.query
+        let id= ctx.query.postId;
+        let resPosts,resErr,user;
+        await Post.findOne({_id:id},(err,post)=>{
+            if(err){resErr=err;return;}
+            if(post){resPost = post;userId=post.from;}
+        })
+
+        await User.findOne({_id:userId},(err,_user)=>{
+            if(err){resErr=err;return;}
+            if(_user){user=_user}
+        })
+
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200,
+                post:resPost,
+                user:user
+            } 
+        }
+    });
+
+    //获取登录用户详情;
+    router.get('/api/getUser',async (ctx,next ) => {
+        let id = ctx.query._id,_user,resErr;
+        await User.findOne({_id: id},(err,user) => {
+            if(err){
+                resErr=err;
+            }else{
+                _user=user
+            }
+        })
+        if(!resErr){
+            ctx.body = {
+                user:_user,
+                code:200
+            }
+        }else{
+            ctx.body = {
+                user:'数据库异常',
+                code:503
+            }
+        }
+    })
+
+
+    //点赞
+    router.post('/api/like', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
+        let { userId,id } = ctx.request.body,resErr;
+        await User.update({_id:userId},{$addToSet:{like:id}}).catch(err => {
+            resErr = err;
+        });
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200
+            } 
+        }
+    });
+
+
+    //取消点赞
+    router.post('/api/unLike', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
+        let { userId,id } = ctx.request.body,resErr;
+        await User.update({_id:userId},{$pull:{like:id}}).catch(err => {
+            resErr = err;
+        });
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200
+            } 
+        }
+    });
 }
 
 module.exports = AppRouter;

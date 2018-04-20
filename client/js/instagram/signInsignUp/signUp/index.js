@@ -1,11 +1,11 @@
 import React from "react";
-import { Form, Input, Tooltip, Icon, Select, Row, Col, Checkbox, Button} from "antd";
+import { message,Form, Input, Tooltip, Icon, Select, Row, Col,Button} from "antd";
 import PropTypes from "prop-types";
 import Style from "./index.less";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+import { signUp,signIn } from "../../../util/request";
 
 class RegistrationForm extends React.Component {
   state = {
@@ -15,7 +15,31 @@ class RegistrationForm extends React.Component {
       e.preventDefault();
       this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
-              console.log("Received values of form: ", values);
+              //   console.log(values)
+              let { password,phone} = values,userName = values.nickname;
+              let _user = {
+                  userName:userName,
+                  password:password,
+                  phone:phone
+              }
+              signUp(_user).then((res)=>{
+                  if(res.data.code === 200){
+                      message.success("注册成功");
+                      setTimeout(()=>{
+                          signIn({userName:userName,password:password}).then((res)=>{
+                              if(res.data.message === "Match"){
+                                  window.location.href = "/";
+                              }else{
+                                  message.error("自动登录失败,请手动登录");
+                              }
+                          })
+                      },100)  //数据库连续操作,貌似写入后直接读取会有问题;
+                  }else{
+                      message.error(res.data.message);
+                  }
+              })
+          }else{
+              message.error(err)
           }
       });
   }
@@ -81,14 +105,17 @@ class RegistrationForm extends React.Component {
               <Form onSubmit={this.handleSubmit}>
                   <FormItem
                       {...formItemLayout}
-                      label="E-mail"
+                      label={(
+                          <span>
+                            Nickname&nbsp;
+                              <Tooltip title="What do you want others to call you?">
+                                  <Icon type="question-circle-o" />
+                              </Tooltip>
+                          </span>
+                      )}
                   >
-                      {getFieldDecorator("email", {
-                          rules: [{
-                              type: "email", message: "The input is not valid E-mail!"
-                          }, {
-                              required: true, message: "Please input your E-mail!"
-                          }]
+                      {getFieldDecorator("nickname", {
+                          rules: [{ required: true, message: "Please input your nickname!", whitespace: true }]
                       })(
                           <Input />
                       )}
@@ -104,7 +131,7 @@ class RegistrationForm extends React.Component {
                               validator: this.validateToNextPassword
                           }]
                       })(
-                          <Input type="password" />
+                          <Input type="password"/>
                       )}
                   </FormItem>
                   <FormItem
@@ -124,23 +151,6 @@ class RegistrationForm extends React.Component {
                   </FormItem>
                   <FormItem
                       {...formItemLayout}
-                      label={(
-                          <span>
-              Nickname&nbsp;
-                              <Tooltip title="What do you want others to call you?">
-                                  <Icon type="question-circle-o" />
-                              </Tooltip>
-                          </span>
-                      )}
-                  >
-                      {getFieldDecorator("nickname", {
-                          rules: [{ required: true, message: "Please input your nickname!", whitespace: true }]
-                      })(
-                          <Input />
-                      )}
-                  </FormItem>
-                  <FormItem
-                      {...formItemLayout}
                       label="Phone Number"
                   >
                       {getFieldDecorator("phone", {
@@ -152,7 +162,7 @@ class RegistrationForm extends React.Component {
                   <FormItem
                       {...formItemLayout}
                       label="Captcha"
-                      extra="We must make sure that your are a human."
+                      extra="注册成功后将为您自动登录"
                   >
                       <Row gutter={8}>
                           <Col span={12}>
@@ -166,13 +176,6 @@ class RegistrationForm extends React.Component {
                               <Button>Get captcha</Button>
                           </Col>
                       </Row>
-                  </FormItem>
-                  <FormItem {...tailFormItemLayout} className="Form_agreement">
-                      {getFieldDecorator("agreement", {
-                          valuePropName: "checked"
-                      })(
-                          <Checkbox>I have read the <a href="">agreement</a></Checkbox>
-                      )}
                   </FormItem>
                   <FormItem {...tailFormItemLayout} className="Form_Register">
                       <Button type="primary" htmlType="submit">Register</Button>

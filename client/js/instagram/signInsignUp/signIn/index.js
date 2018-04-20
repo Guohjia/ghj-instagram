@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Input, Button, Checkbox,message } from "antd";
 import Style from "./index.less";
 import { signIn } from "../../../util/request";
 import PropTypes from "prop-types";
@@ -22,9 +22,9 @@ class NormalLoginForm extends Component {
                     if(res.data.message === "Match"){
                         window.location.href = "/";
                     }else if(res.data.message === "UNEXIT"){
-                        console.log("用户不存在,先注册")
+                        message.error("用户不存在,先注册")
                     }else{
-                        console.log("密码不对")
+                        message.error("密码不对")
                     }
                     // this.setState({
                     //     redirectToReferrer:true

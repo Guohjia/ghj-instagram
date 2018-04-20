@@ -1,15 +1,21 @@
 import { createStore } from "redux";
 // import { combineReducers } from "redux";
-import comment from "./reducer/comment"
-// import { getActivity } from "../util/request"
+// import Post from "./reducer/post";
+import initUser from "./reducer/init"
+import { getUser } from "../util/request";
+import InitStore from "./action/init";
+
 // const myReducer=combineReducers({
-//     play,color
+//     Post,initUser
 // });
-let store;
-store=createStore(comment)
-// getActivity({from:sessionStorage.getItem("isUser")}).then((res)=>{
-//     if(res.code === 200){ let defaultPosts = res.data.posts } //每次都要做状态判断跟烦,需要封装在request里面;
-//     store=createStore(comment,{defaultPosts:defaultPosts}) //preloadedState 服务器获取
-// })
+
+let store=createStore(initUser);
+
+//初始化store中存入当前登录user数据
+getUser({_id:sessionStorage.getItem("isUser")}).then((res)=>{
+    if(res.data.code === 200){ 
+        store.dispatch(InitStore(res.data.user))
+    } 
+})
 
 export default store;

@@ -4,63 +4,55 @@ import Style from "./index.less";
 import { Input } from "antd";
 import { icon as Icon } from "antd";
 import { connect } from "react-redux";
-import actionLike from "../../../../store/action/comment";
+import actionLike from "../../../../store/action/post";
 import PropTypes from "prop-types";
-import axios from "axios";
-
+import { Like,unLike } from "../../../../util/request"
 @connect(
     store => {
-        //console.log(store);
+        console.log(store.like)  //貌似由于再store中like依然为数组,因此改变时无法重新进入render?
+        // let { initUser } = store;
         return {
-            LIKE:store.LIKE
+            like:store.like
+            // LIKE:store.LIKE
         }
     },
     dispatch => {
         return {
-            onLike:id=>{
-                axios.get("/api/actionGetLike", {
-                    params:{
-                        activityId:id
-                    }
+            onLike:(like,targetId)=>{
+                if(like.indexOf(targetId) === -1){
+                    like.push(targetId);
+                }
+                Like({id:targetId}).then(function (response) {
+                    // console.log(response);
+                    dispatch(actionLike(like))
                 })
-                    .then(function (response) {
-                        console.log(response);
-                        dispatch(actionLike(id))
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                axios.post("/api/actionLike",{
-                    activityId:id
+            },
+            unLike:(like,targetId) =>{
+                let newLike = like.filter((item)=>(item!==targetId));
+                console.log(newLike)
+                unLike({id:targetId}).then(function (response) {
+                    // console.log(response);
+                    dispatch(actionLike(newLike))
                 })
-                // //   post('/api/get-users-to-explore')
-                // //     .then(p => dispatch({ type: 'GET_USERS_TO_EXPLORE', payload: p.data }))
-                // //     .catch(e => console.log(e))
-                // console.log(id)
-                // dispatch(actionLike(id))
             }
         };
     }
 )
 export default class CommentAction extends Component{
     constructor(props){
-        super(props);
+        super(props)
     }
 
-    // componentWillReceiveProps(){
-    //     console.log("componentWillReceiveProps")
-    // }
-
     render(){
-        // console.log(this.props);
-        let { LIKE,onLike } = this.props;
+        console.log(this.props);
+        let { like = [],onLike,unLike } = this.props,targetId = location.pathname.split("/detail/")[1];
         return (
             <div className={Style.CommentAction}>
                 <div className="m-action_icon">
                     <span className="btn action_like">
-                        {LIKE?
-                            <Icon type="heart" style={{ color: "rgb(255,57,70)" }} className="icon" onClick={()=>{onLike(111)}}/>
-                            :<Icon type="heart-o" className="icon" onClick={()=>{onLike(111)}}/>}
+                        {like.indexOf(targetId) !==-1?
+                            <Icon type="heart" style={{ color: "rgb(255,57,70)" }} className="icon" onClick={()=>{unLike(like,targetId)}}/>
+                            :<Icon type="heart-o" className="icon" onClick={()=>{onLike(like,targetId)}}/>}
                     </span>
                     <span className="btn action_cm"><Icon type="message" className="icon"/></span>
                     <span className="btn action_collect"><Icon type="tag-o" className="icon"/></span>
@@ -80,9 +72,8 @@ export default class CommentAction extends Component{
 
 CommentAction.propTypes = {
     onLike: PropTypes.func,
-    LIKE: PropTypes.bool
-    // // location: PropTypes.object.isRequired
-    // pathname: PropTypes.string.isRequired
+    unLike: PropTypes.func,
+    like: PropTypes.array
 }
 
 
