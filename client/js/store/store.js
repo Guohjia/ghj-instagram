@@ -1,11 +1,13 @@
 import { createStore } from "redux";
 // import { combineReducers } from "redux";
-import comment from "./reducer/comment"
+
+import post from "./reducer/post"
 
 // const myReducer=combineReducers({
-//     play,color
+//     Post,initUser
 // });
 
-let store=createStore(comment,{LIKE:false}) //preloadedState 服务器获取
+let store=createStore(post,window.login_user);
+
 
 export default store;
