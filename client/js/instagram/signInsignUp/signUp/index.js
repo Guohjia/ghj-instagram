@@ -23,20 +23,16 @@ class RegistrationForm extends React.Component {
                   phone:phone
               }
               signUp(_user).then((res)=>{
-                  if(res.data.code === 200){
-                      message.success("注册成功");
-                      setTimeout(()=>{
-                          signIn({userName:userName,password:password}).then((res)=>{
-                              if(res.data.message === "Match"){
-                                  window.location.href = "/";
-                              }else{
-                                  message.error("自动登录失败,请手动登录");
-                              }
-                          })
-                      },100)  //数据库连续操作,貌似写入后直接读取会有问题;
-                  }else{
-                      message.error(res.data.message);
-                  }
+                  message.success("注册成功");
+                  setTimeout(()=>{
+                      signIn({userName:userName,password:password}).then((res)=>{
+                          if(res.data.message === "Match"){
+                              window.location.href = "/";
+                          }else{
+                              message.error("自动登录失败,请手动登录");
+                          }
+                      })
+                  },100)  //数据库连续操作,貌似写入后直接读取会有问题;
               })
           }else{
               message.error(err)

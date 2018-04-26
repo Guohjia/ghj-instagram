@@ -60,13 +60,8 @@ export default class Post extends Component{
         }
         
         sendPost(post).then((res)=>{
-            if(res.data.code === 200){
-                message.success("动态发布成功");
-                this.setState(Object.assign(this.state,{pubLoading:false}));
-                this.props.modalClose();
-            }else{
-                message.error("动态发布失败"+res.message);
-            }
+            this.setState(Object.assign(this.state,{pubLoading:false}));
+            this.props.modalClose();
         })
     }
 }

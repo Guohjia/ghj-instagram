@@ -8,7 +8,19 @@ const UNLIKE = (id) => ({
     id:id
 })
 
+const COLLECT = (id) => ({
+    type: "COLLECT",
+    id:id
+})
+
+const UNCOLLECT = (id) => ({
+    type: "UNCOLLECT",
+    id:id
+})
+
 export {
     LIKE,
-    UNLIKE
+    UNLIKE,
+    COLLECT,
+    UNCOLLECT
 }

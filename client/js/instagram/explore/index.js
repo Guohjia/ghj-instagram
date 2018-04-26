@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import Style from "./index.less";
-import { icon as Icon ,message } from "antd";
+import { icon as Icon } from "antd";
 import { Link } from "react-router-dom";
 import Waypoint from "react-waypoint";
 import { getPosts } from "../../util/request"
@@ -22,16 +22,12 @@ export default class Explore extends Component{
             fromIndex:0
         }
         getPosts(params).then((res)=>{
-            if(res.data.code === 200){
-                let posts;
-                res.data.posts.length>3?posts=[res.data.posts.splice(0,3),res.data.posts]:posts=[res.data.posts.splice(0,3)];
-                this.setState({
-                    posts:posts,
-                    postsNum:6
-                })
-            }else{
-                message.error(res.data.message)
-            }
+            let posts;
+            res.data.posts.length>3?posts=[res.data.posts.splice(0,3),res.data.posts]:posts=[res.data.posts.splice(0,3)];
+            this.setState({
+                posts:posts,
+                postsNum:6
+            })
         })
     }
     render(){

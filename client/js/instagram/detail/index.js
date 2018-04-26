@@ -5,7 +5,6 @@ import Comment from "./comment";
 import Modal from "../../component/modal";
 import User_IMG1 from "../../../imgs/curry.jpg";
 import { getPost } from "../../util/request";
-import { message } from "antd";
 
 export default class Detail extends Component{
     constructor(props){
@@ -19,14 +18,10 @@ export default class Detail extends Component{
     componentDidMount(){
         let postId=this.props.location.pathname.split("/detail/")[1];
         getPost({postId:postId}).then( res => {
-            if(res.data.code === 200){
-                this.setState({
-                    user:res.data.user,
-                    post:res.data.post
-                })
-            }else{
-                message.error(res.data.message)
-            }
+            this.setState({
+                user:res.data.user,
+                post:res.data.post
+            })
         })
     }
 

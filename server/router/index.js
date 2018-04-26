@@ -209,30 +209,6 @@ const AppRouter = (app)=>{
         }
     });
 
-    //获取登录用户详情;
-    router.get('/api/getUser',async (ctx,next ) => {
-        let id = ctx.query._id,_user,resErr;
-        await User.findOne({_id: id},(err,user) => {
-            if(err){
-                resErr=err;
-            }else{
-                _user=user
-            }
-        })
-        if(!resErr){
-            ctx.body = {
-                user:_user,
-                code:200
-            }
-        }else{
-            ctx.body = {
-                user:'数据库异常',
-                code:503
-            }
-        }
-    })
-
-
     //点赞
     router.post('/api/like', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
@@ -258,6 +234,46 @@ const AppRouter = (app)=>{
         //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
         let { userId,id } = ctx.request.body,resErr;
         await User.update({_id:userId},{$pull:{like:id}}).catch(err => {
+            resErr = err;
+        });
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200
+            } 
+        }
+    });
+
+
+     //收藏
+     router.post('/api/collect', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
+        let { userId,id } = ctx.request.body,resErr;
+        await User.update({_id:userId},{$addToSet:{collect:id}}).catch(err => {
+            resErr = err;
+        });
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200
+            } 
+        }
+    });
+
+
+    //取消收藏
+    router.post('/api/unCollect', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
+        let { userId,id } = ctx.request.body,resErr;
+        await User.update({_id:userId},{$pull:{collect:id}}).catch(err => {
             resErr = err;
         });
         if(resErr){
