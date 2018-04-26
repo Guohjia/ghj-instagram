@@ -32,7 +32,6 @@ export default class UserSetting extends Component {
 
     signout(){
         signOut().then(()=>{
-            sessionStorage.clear();
             window.location.href = "/";
         })
     }

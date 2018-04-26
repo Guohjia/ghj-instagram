@@ -21,28 +21,37 @@ const AppRouter = (app)=>{
     });
     
     router.get('/profile', async (ctx, next) => {
-        if(!ctx.session.user){return ctx.redirect('/login')}
-        //根据_id去数据库中查询帖子、关注着、正在关注等相关数据
-        // console.log(ctx.session)
-        await ctx.render('profile', {
-            pageTitle: 'Instagram',
-            userName:ctx.session.user.userName,
-            post:5,
-            follower:6,
-            following:10
-        })
+        if(ctx.session.user){
+            let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
+            if(matchUser){ctx.session.user = matchUser;}
+            params=JSON.parse(JSON.stringify(ctx.session.user));
+        }else{
+            return ctx.redirect('/login')
+        }
+        params.pageTitle='Instagram';
+        await ctx.render('profile', params)
     });
     
     //spa => 依然返回主页
     router.get('/detail/:id', async (ctx, next) => {
-        await ctx.render('index', {
-            pageTitle: 'Instagram'
-        })
+        let params={};
+        if(ctx.session.user){
+            let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
+            if(matchUser){ctx.session.user = matchUser;}
+            params=JSON.parse(JSON.stringify(ctx.session.user));
+        }
+        params.pageTitle='Instagram';
+        await ctx.render('index', params)
     });
     
     router.get('/', async (ctx, next) => {
-        let params={pageTitle:'Instagram'};
-        if(ctx.session.user){params.userId = ctx.session.user.id}
+        let params={};
+        if(ctx.session.user){  //刷新页面更新session
+            let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
+            if(matchUser){ctx.session.user = matchUser;}
+            params=JSON.parse(JSON.stringify(ctx.session.user));
+        }
+        params.pageTitle='Instagram';
         await ctx.render('index', params)
     });
     
@@ -125,7 +134,6 @@ const AppRouter = (app)=>{
     //登出
     router.get('/api/signout', async (ctx, next) => {
         delete ctx.session.user;
-        // return ctx.redirect('/'); =>为什么不行？只负责重定向,不负责刷新页面？
     })
 
     //发布动态 

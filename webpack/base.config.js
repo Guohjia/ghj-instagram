@@ -57,10 +57,6 @@ module.exports = {
         ]
     },
     plugins: [
-    //   new ExtractTextPlugin({
-    //       filename:'css/[name].css',
-    //       allChunks:true
-    //   }),
       new webpack.optimize.CommonsChunkPlugin({
         names:'vendor',
         filename: 'js/[name].js'

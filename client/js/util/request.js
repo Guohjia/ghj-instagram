@@ -85,16 +85,16 @@ const sendPost = params => {
 }
 
 //点赞
-const Like = params => {
-    params.userId=sessionStorage.getItem("isUser");
+const reqLike = params => {
+    params.userId=window.login_user._id;
     return axios.post("/api/like",params).catch(function (error) {
         console.log(error);
     })
 }
 
 //取消赞
-const unLike = params => {
-    params.userId=sessionStorage.getItem("isUser");
+const reqUnLike = params => {
+    params.userId=window.login_user._id;
     return axios.post("/api/unLike",params).catch(function (error) {
         console.log(error);
     })
@@ -115,6 +115,6 @@ module.exports = {
     getPost,
     sendPost,
     getUser,
-    Like,
-    unLike
+    reqLike,
+    reqUnLike
 };

@@ -3,15 +3,17 @@ html(lang="zh-CN")
     head
         title= pageTitle
         script(type='text/javascript').
-            (function(){
-                let user={
-                    userName:`#{userName}`,
-                    post:`#{post}`,
-                    follower:`#{follower}`,
-                    following:`#{following}`
+            if('#{_id}'){
+                window.login_user={
+                    follower: '#{follower}'&&'#{follower}'.split(',')||[],
+                    following: '#{following}'&&'#{following}'.split(',')||[],
+                    collect: '#{collect}'&&'#{collect}'.split(',')||[],
+                    post: '#{post}'&&'#{post}'.split(',')||[],
+                    like: '#{like}'&&'#{like}'.split(',')||[],
+                    _id: '#{_id}',
+                    userName: '#{userName}'
                 }
-                sessionStorage.setItem('user',JSON.stringify(user));
-            })()
+            }
     body
         #root
     script(type='text/javascript',src='/js/vendor.js')

@@ -56,7 +56,7 @@ export default class Post extends Component{
             commentNum: 0,
             likeNum: 0,
             collectNum: 0,
-            from:sessionStorage.getItem("isUser")
+            from:window.login_user._id
         }
         
         sendPost(post).then((res)=>{

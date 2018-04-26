@@ -4,35 +4,39 @@ import Style from "./index.less";
 import { Input } from "antd";
 import { icon as Icon } from "antd";
 import { connect } from "react-redux";
-import actionLike from "../../../../store/action/post";
+import { LIKE,UNLIKE } from "../../../../store/action/post";
 import PropTypes from "prop-types";
-import { Like,unLike } from "../../../../util/request"
+import { reqLike,reqUnLike } from "../../../../util/request";
+
+let TORENDER=false; 
+//渲染控制,貌似connect对返回对象的watch只有一层;
+//question:如果里面的数组改变,是不会触发重新render的 => 后续可能要优化
 @connect(
     store => {
-        console.log(store.like)  //貌似由于再store中like依然为数组,因此改变时无法重新进入render?
-        // let { initUser } = store;
+        TORENDER=!TORENDER;
         return {
-            like:store.like
-            // LIKE:store.LIKE
+            like:store.like,
+            TORENDER:TORENDER
         }
     },
     dispatch => {
         return {
-            onLike:(like,targetId)=>{
-                if(like.indexOf(targetId) === -1){
-                    like.push(targetId);
-                }
-                Like({id:targetId}).then(function (response) {
-                    // console.log(response);
-                    dispatch(actionLike(like))
+            onLike:id=>{
+                reqLike({id:id}).then(function (res) {
+                    if(res.data.code === 200){ //question:有点丑能不能封装下
+                        dispatch(LIKE(id))
+                    }else{
+                        console.log("网络出错")
+                    }
                 })
             },
-            unLike:(like,targetId) =>{
-                let newLike = like.filter((item)=>(item!==targetId));
-                console.log(newLike)
-                unLike({id:targetId}).then(function (response) {
-                    // console.log(response);
-                    dispatch(actionLike(newLike))
+            unLike:id =>{
+                reqUnLike({id:id}).then(function (res) {
+                    if(res.data.code === 200){
+                        dispatch(UNLIKE(id))
+                    }else{
+                        console.log("网络出错")
+                    }
                 })
             }
         };
@@ -44,15 +48,15 @@ export default class CommentAction extends Component{
     }
 
     render(){
-        console.log(this.props);
+        // console.log(this.props)
         let { like = [],onLike,unLike } = this.props,targetId = location.pathname.split("/detail/")[1];
         return (
             <div className={Style.CommentAction}>
                 <div className="m-action_icon">
                     <span className="btn action_like">
                         {like.indexOf(targetId) !==-1?
-                            <Icon type="heart" style={{ color: "rgb(255,57,70)" }} className="icon" onClick={()=>{unLike(like,targetId)}}/>
-                            :<Icon type="heart-o" className="icon" onClick={()=>{onLike(like,targetId)}}/>}
+                            <Icon type="heart" style={{ color: "rgb(255,57,70)" }} className="icon" onClick={()=>{unLike(targetId)}}/>
+                            :<Icon type="heart-o" className="icon" onClick={()=>{onLike(targetId)}}/>}
                     </span>
                     <span className="btn action_cm"><Icon type="message" className="icon"/></span>
                     <span className="btn action_collect"><Icon type="tag-o" className="icon"/></span>

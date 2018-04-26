@@ -11,20 +11,10 @@ import { BrowserRouter as Router,Route,Switch} from "react-router-dom";
 const Instagram=()=>{
     return (
         <Router>
-            {/* <Switch>
-                <Route path="/login" component={WrappedNormalLoginForm}/>
-                <Route path="/profile" component={Profile}/>
-                <Route path="/" component={()=><div className="User_Explore">
-                    <Nav />
-                    <FindUser />
-                    <Explore />
-                </div>}/>
-            </Switch> */}
             <div className="instagram">
                 <Nav />
                 <Route path="/detail" component={Detail}/>
                 <Switch>
-                    {/* <Route path="/profile" component={Profile}/> */}
                     <Route path="/" component={()=><div className="User_Explore">
                         <FindUser />
                         <Explore />

@@ -17,7 +17,7 @@ export default class Profile  extends Component {
     
     render(){
         const TabPane = Tabs.TabPane;
-        const {userName,post,follower,following } = JSON.parse(sessionStorage.user);
+        const {userName,post,follower,following } = window.login_user;
         // const { redirectToReferrer } =this.state
         // if (redirectToReferrer) {
         //     // return <Redirect to="/login" />;

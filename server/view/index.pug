@@ -3,10 +3,17 @@ html(lang="zh-CN")
     head
         title= pageTitle
         script(type='text/javascript').
-            (function(){
-                if(!'#{userId}'){return;}
-                sessionStorage.setItem('isUser','#{userId}');
-            })()
+            if('#{_id}'){
+                window.login_user={
+                    follower: '#{follower}'&&'#{follower}'.split(',')||[],
+                    following: '#{following}'&&'#{following}'.split(',')||[],
+                    collect: '#{collect}'&&'#{collect}'.split(',')||[],
+                    post: '#{post}'&&'#{post}'.split(',')||[],
+                    like: '#{like}'&&'#{like}'.split(',')||[],
+                    _id: '#{_id}',
+                    userName: '#{userName}'
+                }
+            }
         //- link(rel="stylesheet" href="/css/index.css") 
     body
         #root
