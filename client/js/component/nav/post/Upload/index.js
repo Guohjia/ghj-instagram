@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { message,Upload, Icon, Modal } from "antd";
-import Style from "./index.less";
 import PropTypes from "prop-types";
 
 export default class PicturesWall extends Component {
@@ -37,7 +36,7 @@ export default class PicturesWall extends Component {
           </div>
       );
       return (
-          <div className={Style.Upload}>
+          <div className="m_upload">
               <Upload
                   action="http://upload.qiniup.com/"
                   listType="picture-card"

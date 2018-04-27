@@ -52,7 +52,7 @@ export default class Post extends Component{
         let { content,pvUrl } = this.state;
         let post = {
             content:content,
-            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl+"?imageView2/1/w/300/h/300/format/png/q/75|imageslim",
+            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl+"?imageView2/1/w/600/h/600/format/png/q/75|imageslim",
             commentNum: 0,
             likeNum: 0,
             collectNum: 0,

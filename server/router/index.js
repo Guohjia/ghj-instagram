@@ -136,6 +136,28 @@ const AppRouter = (app)=>{
         delete ctx.session.user;
     })
 
+    //用户相关
+    //更新头像
+    router.post('/api/protrait', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码
+        let { userImg } = ctx.request.body
+        let { _id } = ctx.session.user,resErr;
+        await User.update({_id:_id},{$set:{userImg:userImg}}).catch(err => {
+            resErr = err;
+        });
+
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,发布失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200 
+            } 
+        }
+    });
+
     //发布动态 
     router.post('/api/post', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码

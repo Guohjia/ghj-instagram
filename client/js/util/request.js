@@ -14,6 +14,12 @@ const signOut = () => {
     return myAxios.get("/api/signout")
 }
 
+//用户相关
+
+//更新头像
+const updateProtrait= params => {
+    return myAxios.post("/api/protrait",params)
+}
 
 //抓取动态 => 每次抓6条;
 const getPosts = params => {
@@ -64,5 +70,6 @@ module.exports = {
     reqLike,
     reqUnLike,
     reqCollect,
-    reqUnCollect
+    reqUnCollect,
+    updateProtrait
 };
