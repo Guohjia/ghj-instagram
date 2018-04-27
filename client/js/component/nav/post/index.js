@@ -22,7 +22,7 @@ export default class Post extends Component{
                 <div className="m-postContent">
                     <TextArea rows={4} placeholder="说些什么吧..." onBlur={this.getContent.bind(this)} ref={textArea=>this.textArea=textArea}/>
                 </div>
-                <div className="m-postUpload">
+                <div className="m-postUpload u-clear">
                     <PicturesWall getUrl={this.getUrl.bind(this)}/>
                 </div>
                 <div className="post_btn">
