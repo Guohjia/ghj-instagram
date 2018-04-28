@@ -196,7 +196,7 @@ const AppRouter = (app)=>{
         await _Post.save(function(err,_Post){
             if(err){resErr=err;}
         })
-        await User.update({_id:ctx.session.user._id},{$set:{post:[]}}).catch(err => {
+        await User.update({_id:ctx.session.user._id},{$addToSet:{post:_Post._id}}).catch(err => {
             resErr = err;
         });
         if(resErr){
