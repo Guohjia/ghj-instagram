@@ -14,25 +14,32 @@ export default class Explore extends Component{
             postsNum:0, //索引位置
             done:false
         };
-        this._handleWaypointEnter=this._handleWaypointEnter.bind(this); 
+        this._handleWaypointEnter=this._handleWaypointEnter.bind(this);
+        this.loadPosts=this.loadPosts.bind(this); 
     }
 
     componentDidMount(){
-        let params = {
-            number:6,
-            fromIndex:0
-        }
-        getPosts(params).then((res)=>{
-            let posts,done;
-            res.data.posts.length>3?posts=[res.data.posts.splice(0,3),res.data.posts]:posts=[res.data.posts.splice(0,3)];
-            if(posts.length<6){done=true;}
+        this.loadPosts();
+    }
+
+    loadPosts(){
+        let postsNum = this.state.postsNum;
+        getPosts({fromIndex:postsNum}).then((res)=>{
+            let done,newLength= res.data.posts.length+this.state.postsNum,
+                    newPosts = JSON.parse(JSON.stringify(this.state.posts));
+            if(res.data.posts.length>3){
+                newPosts.push(res.data.posts.splice(0,3),res.data.posts)
+            }else{
+                newPosts.push(res.data.posts.splice(0,3));
+            }
             this.setState({
-                posts:posts,
-                postsNum:posts.length,
-                done:done
+                posts:newPosts,
+                postsNum:newLength,
+                done:res.data.done
             })
         })
     }
+
     render(){
         const { posts,done } =this.state;
         if(posts.length === 0 && !done){
@@ -84,42 +91,8 @@ export default class Explore extends Component{
     }
 
     _handleWaypointEnter(){
+        this.loadPosts();
         console.log("_handleWaypointEnter... to request getData");
-        // let copyState = JSON.parse(JSON.stringify(this.state));
-        // copyState.data.push([
-        //     {
-        //         userPic:User_IMG1,
-        //         userId:"30",
-        //         userName:"Stephen Curry"
-        //     },
-        //     {
-        //         userPic:User_IMG2,
-        //         userId:"15",
-        //         userName:"Jorgen van Rijen"
-        //     },
-        //     {
-        //         userPic:User_IMG3,
-        //         userId:"47",
-        //         userName:"孙燕姿"
-        //     }
-        // ],[
-        //     {
-        //         userPic:User_IMG1,
-        //         userId:"30",
-        //         userName:"Stephen Curry"
-        //     },
-        //     {
-        //         userPic:User_IMG2,
-        //         userId:"15",
-        //         userName:"Jorgen van Rijen"
-        //     },
-        //     {
-        //         userPic:User_IMG3,
-        //         userId:"47",
-        //         userName:"孙燕姿"
-        //     }
-        // ])
-        // this.setState(copyState)
     }
 }
 

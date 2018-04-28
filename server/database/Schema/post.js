@@ -3,10 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const  PostSchema = new mongoose.Schema({
-    pvUrl: {
-        unique: true,
-        type: String
-    },
+    pvUrl: String,
     content:String,
     from:{type:ObjectId,ref:'User'},
     commentNum: Number,

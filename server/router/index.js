@@ -215,13 +215,17 @@ const AppRouter = (app)=>{
     //获取所有动态
     router.get('/api/getPosts', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码ctx.query
-        let { number,fromIndex } = ctx.query;
-        let resPosts,resErr;
+        let { fromIndex } = ctx.query;
+        let resPosts,resErr,done=false;
         await Post.find({},(err,posts)=>{
             if(err){resErr=err;return;}
             if(posts){resPosts = posts}
-        }).skip(+fromIndex).limit(+number)
+        }).skip(+fromIndex).limit(6)
 
+        if(resPosts.length<6){
+            //数据已经全部读完
+            done=true
+        }
         if(resErr){
             ctx.body = {
                 code:503,
@@ -230,7 +234,8 @@ const AppRouter = (app)=>{
         }else{
             ctx.body = {
                 code:200,
-                posts:resPosts || []
+                posts:resPosts || [],
+                done:done
             } 
         }
     });
