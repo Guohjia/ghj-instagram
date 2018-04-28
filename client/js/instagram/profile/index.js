@@ -58,9 +58,9 @@ export default class Profile  extends Component {
                                 {/* 这里添加modal退出登陆用的 */}
                             </div>
                             <div className="m-activity-num">
-                                <span>{post}帖子</span>
-                                <span className="follower">{follower}关注者</span>
-                                <span>正在关注{following}</span>
+                                <span>{post.length}帖子</span>
+                                <span className="follower">{follower.length}关注者</span>
+                                <span>正在关注{following.length}</span>
                             </div>
                         </div>
                     </div>

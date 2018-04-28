@@ -3,6 +3,8 @@ import Style from "./index.less";
 import { message,Input,Button } from "antd";
 import PicturesWall from "./Upload";
 import { sendPost } from "../../../util/request";
+import { POST } from "../../../store/action/post";
+import store from "../../../store/store";
 import PropTypes from "prop-types";
 
 export default class Post extends Component{
@@ -52,7 +54,7 @@ export default class Post extends Component{
         let { content,pvUrl } = this.state;
         let post = {
             content:content,
-            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl+"?imageView2/1/w/600/h/600/format/png/q/75|imageslim",
+            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl,
             commentNum: 0,
             likeNum: 0,
             collectNum: 0,
@@ -61,7 +63,9 @@ export default class Post extends Component{
         
         sendPost(post).then((res)=>{
             this.setState(Object.assign(this.state,{pubLoading:false}));
+            store.dispatch(POST(res.data.id))
             this.props.modalClose();
+            message.success("发布成功👍🤣")
         })
     }
 }

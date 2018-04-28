@@ -19,6 +19,7 @@ let TORENDER=false;
     dispatch => {
         return {
             onFollow:id=>{
+                if(!window.login_user){return window.location.href = "/login";}
                 reqFollow({id:id}).then(res =>{ dispatch(FOLLOW(id)) })
             },
             unFollow:id =>{
@@ -73,7 +74,7 @@ export default class FindUser extends Component{
                             <a href="#">{item.userName}</a>
                             <span className="icon"></span>
                         </div>
-                        { following.indexOf(item._id) === -1?
+                        { !following || following.indexOf(item._id) === -1?
                             <Button type="primary" loading={follow_load} onClick={()=>{onFollow(item._id)}}>关注</Button>:
                             <Button type="primary" loading={follow_load} className="btn_unfollow" onClick={()=>{unFollow(item._id)}}>已关注</Button>
                         }

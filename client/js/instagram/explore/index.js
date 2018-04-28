@@ -39,6 +39,7 @@ export default class Explore extends Component{
             return <div className="u-center" style={{ top: 500 }}><Icon type="loading" style={{ fontSize: 30}}/></div>;
         }else{
             let ExploreList=posts.map((item,index)=>{
+                let addLi=Array.from(new Array(3-item.length%3));
                 return (
                     <ul className="m_row" key={index}>
                         {
@@ -46,9 +47,16 @@ export default class Explore extends Component{
                                 return (
                                     <li className="item" key={item._id}>
                                         <Link to={`/detail/${item._id}`}>
-                                            <img src={item.pvUrl} />
+                                            <img src={item.pvUrl} alt={item.content}/>
                                         </Link>
                                     </li>
+                                )
+                            })
+                        }
+                        {
+                            addLi.length!==3&&addLi.map((item,index)=>{
+                                return (
+                                    <li className="item" key={index}></li>
                                 )
                             })
                         }

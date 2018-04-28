@@ -28,11 +28,17 @@ const UNFOLLOW = (id) => ({
     id:id
 })
 
+const POST = (id) => ({
+    type: "POST",
+    id:id
+})
+
 export {
     LIKE,
     UNLIKE,
     COLLECT,
     UNCOLLECT,
     FOLLOW,
-    UNFOLLOW
+    UNFOLLOW,
+    POST
 }

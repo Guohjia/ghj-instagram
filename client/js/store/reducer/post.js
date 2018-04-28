@@ -12,6 +12,8 @@ export default (state={}, action) => {
             return { ...state, following:follow(state.following,action.id)}
         case "UNFOLLOW":
             return { ...state, following:unfollow(state.following,action.id)}
+        case "POST":
+            return { ...state, post:post(state.post,action.id)}
     }
     return state
 }
@@ -39,3 +41,8 @@ const follow = (following, id) => {
     
 const unfollow =(following, id) => 
     following.filter(r => r != id)
+
+const post = (post, id) => {
+    post.unshift(id)
+    return post
+}

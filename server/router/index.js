@@ -162,11 +162,16 @@ const AppRouter = (app)=>{
     //Math.floor(Math.random() * (max+1 - min) + min)
     //max  => User.find({}).length()-3
     router.get('/api/getUsers', async (ctx, next) => {
-        let { userName } = ctx.session.user;
-        let users=await User.aggregate([
-            {$match:{"userName":{$ne:userName}}},
-            {$sample:{size:3}}
-        ])
+        let users;
+        if(ctx.session.user){
+            let { userName } = ctx.session.user;
+            users=await User.aggregate([
+                {$match:{"userName":{$ne:userName}}},
+                {$sample:{size:3}}
+            ])
+        }else{
+            users=await User.aggregate([{$sample:{size:3}}])
+        }
 
         if(!users){
             ctx.body = {
@@ -188,9 +193,12 @@ const AppRouter = (app)=>{
         let _PostParams = JSON.parse(JSON.stringify(ctx.request.body));
         let _Post = new Post(_PostParams);
         let resErr;
-        await _Post.save((err,_Post)=>{
+        await _Post.save(function(err,_Post){
             if(err){resErr=err;}
         })
+        await User.update({_id:ctx.session.user._id},{$set:{post:[]}}).catch(err => {
+            resErr = err;
+        });
         if(resErr){
             ctx.body = {
                 code:503,
@@ -198,7 +206,8 @@ const AppRouter = (app)=>{
             }
         }else{
             ctx.body = {
-                code:200 
+                code:200,
+                id:_Post._id 
             } 
         }
     });

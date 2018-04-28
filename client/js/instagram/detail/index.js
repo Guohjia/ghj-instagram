@@ -39,7 +39,7 @@ export default class Detail extends Component{
                             <span className="user_name">{user.userName}   •</span>
                             <span className="attention_btn btn">关注</span>
                         </div>
-                        <div style={{padding: "10px 25px"}}>{post.content}</div>
+                        <div style={{padding: "10px 25px",color: "#666"}}>{post.content}</div>
                         <Comment />
                     </div>
                 </div>
