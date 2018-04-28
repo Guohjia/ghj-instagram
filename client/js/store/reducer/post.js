@@ -8,6 +8,10 @@ export default (state={}, action) => {
             return { ...state, collect:collect(state.collect,action.id)}
         case "UNCOLLECT":
             return { ...state, collect:uncollect(state.collect,action.id)}
+        case "FOLLOW":
+            return { ...state, following:follow(state.following,action.id)}
+        case "UNFOLLOW":
+            return { ...state, following:unfollow(state.following,action.id)}
     }
     return state
 }
@@ -27,3 +31,11 @@ const collect = (collect, id) => {
 
 const uncollect =(collect, id) => 
     collect.filter(r => r != id)
+
+const follow = (following, id) => {
+    following.unshift(id)
+    return following
+}
+    
+const unfollow =(following, id) => 
+    following.filter(r => r != id)

@@ -18,9 +18,21 @@ const UNCOLLECT = (id) => ({
     id:id
 })
 
+const FOLLOW = (id) => ({
+    type: "FOLLOW",
+    id:id
+})
+
+const UNFOLLOW = (id) => ({
+    type: "UNFOLLOW",
+    id:id
+})
+
 export {
     LIKE,
     UNLIKE,
     COLLECT,
-    UNCOLLECT
+    UNCOLLECT,
+    FOLLOW,
+    UNFOLLOW
 }

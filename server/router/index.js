@@ -117,14 +117,14 @@ const AppRouter = (app)=>{
                 }
             }else{
                 ctx.body = {
-                    code: 200,
-                    message:'NoMatch'
+                    code: 403,
+                    message:'输入密码有误'
                 }
             }
         }else{
             ctx.body = {
                 code: 401,
-                message:'UNEXIT'
+                message:'用户不存在，请先注册'
             }
         }
     });
@@ -157,6 +157,30 @@ const AppRouter = (app)=>{
             } 
         }
     });
+
+    //随机获得三个用户数据
+    //Math.floor(Math.random() * (max+1 - min) + min)
+    //max  => User.find({}).length()-3
+    router.get('/api/getUsers', async (ctx, next) => {
+        let { userName } = ctx.session.user;
+        let users=await User.aggregate([
+            {$match:{"userName":{$ne:userName}}},
+            {$sample:{size:3}}
+        ])
+
+        if(!users){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200,
+                users:users || []
+            } 
+        }
+    });
+
 
     //发布动态 
     router.post('/api/post', async (ctx, next) => {
@@ -298,6 +322,54 @@ const AppRouter = (app)=>{
         await User.update({_id:userId},{$pull:{collect:id}}).catch(err => {
             resErr = err;
         });
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200
+            } 
+        }
+    });
+
+
+     //关注
+     router.post('/api/follow', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
+        let { userId,id } = ctx.request.body,resErr;
+        await User.update({_id:userId},{$addToSet:{following:id}}).catch(err => {
+            resErr = err;
+        });
+        await User.update({_id:id},{$addToSet:{follower:userId}}).catch(err => {
+            resErr = err;
+        });
+
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取数据失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200
+            } 
+        }
+    });
+
+
+    //取消关注
+    router.post('/api/unFollow', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码 =>取消赞把push改成pull即可
+        let { userId,id } = ctx.request.body,resErr;
+        await User.update({_id:userId},{$pull:{following:id}}).catch(err => {
+            resErr = err;
+        });
+        await User.update({_id:id},{$addToSet:{follower:userId}}).catch(err => {
+            resErr = err;
+        });
+        
         if(resErr){
             ctx.body = {
                 code:503,

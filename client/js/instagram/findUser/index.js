@@ -1,60 +1,109 @@
 import React,{Component} from "react";
-import { Button } from "antd";
+import { Button,Icon } from "antd";
 import Style from "./index.less";
+import { getUsers } from "../../util/request"
+import { connect } from "react-redux";
+import { FOLLOW,UNFOLLOW } from "../../store/action/post";
+import { reqFollow,reqUnFollow } from "../../util/request";
+import PropTypes from "prop-types";
 
-//这里的图片以后可以改成点击切换用请求去抓抓图片;
-import User_IMG1 from "../../../imgs/curry.jpg";
-import User_IMG2 from "../../../imgs/van.jpg";
-import User_IMG3 from "../../../imgs/syz.jpg";
-
+let TORENDER=false;
+@connect(
+    store => {
+        TORENDER =!TORENDER;
+        return {
+            following:store.following,
+            TORENDER:TORENDER
+        }
+    },
+    dispatch => {
+        return {
+            onFollow:id=>{
+                reqFollow({id:id}).then(res =>{ dispatch(FOLLOW(id)) })
+            },
+            unFollow:id =>{
+                reqUnFollow({id:id}).then(res =>{ dispatch(UNFOLLOW(id)) })
+            }
+        };
+    }
+)
 export default class FindUser extends Component{
     constructor(props){
         super(props)
-        
-        this.data=[
-            {
-                userPic:User_IMG1,
-                userId:"30",
-                userName:"Stephen Curry"
-            },
-            {
-                userPic:User_IMG2,
-                userId:"15",
-                userName:"Jorgen van Rijen"
-            },
-            {
-                userPic:User_IMG3,
-                userId:"47",
-                userName:"孙燕姿"
-            }
-        ]
+        this.state ={
+            users:[],
+            spin:false
+        }
+    }
+
+    componentDidMount(){
+        getUsers().then( res =>{
+            this.setState({
+                users:res.data.users,
+                spin:false
+            })
+        })
+    }
+
+    moreUsers(){
+        this.setState(Object.assign(this.state,{spin:true}))
+        getUsers().then( res =>{
+            this.setState(Object.assign(this.state,{users:res.data.users}))
+            setTimeout(()=>{
+                this.setState(Object.assign(this.state,{spin:false}))
+            },800)
+        })
+    }
+
+    followLoading(loading){
+        this.setState(Object.assign(this.state,{
+            follow_load:loading
+        }))
     }
 
     render(){
-        const user=this.data.map((item)=>{
-            return (
-                <li key={item.userId}>
-                    <a href="#" className="user_img"><img src={item.userPic} /></a>
-                    <div className="name">
-                        <a href="#">{item.userName}</a>
-                        <span className="icon"></span>
-                    </div>
-                    <Button type="primary">关注</Button>
-                </li>
-            )
-        })
+        let {users,spin,follow_load} = this.state,renderUsers;
+        let { following,onFollow,unFollow } =this.props;
+        if(users.length>0){
+            renderUsers=users.map((item)=>{
+                return (
+                    <li key={item._id}>
+                        <a href="#" className="user_img"><img src={item.userImg} /></a>
+                        <div className="name">
+                            <a href="#">{item.userName}</a>
+                            <span className="icon"></span>
+                        </div>
+                        { following.indexOf(item._id) === -1?
+                            <Button type="primary" loading={follow_load} onClick={()=>{onFollow(item._id)}}>关注</Button>:
+                            <Button type="primary" loading={follow_load} className="btn_unfollow" onClick={()=>{unFollow(item._id)}}>已关注</Button>
+                        }
+                        
+                    </li>
+                )
+            })
+        }else{
+            renderUsers = <li><Icon type="loading" style={{ fontSize: 30}}/></li>
+        }
 
         return (
             <div  className={Style.findUser}>
                 <div className="hd">
-                    <a href="#">查看更多</a>
+                    <a href="#" className="u_more" onClick={this.moreUsers.bind(this)}>
+                        <span style={{ marginRight: 5 }}>查看更多</span>
+                        <Icon type="reload" style={{ color: "#08c" }} spin={spin}/>
+                    </a>
                     <h2>发现用户</h2>
                 </div>
                 <ul>
-                    {user}
+                    {renderUsers}
                 </ul>
             </div>
         )
     }
 }
 
+FindUser.propTypes = {
+    following: PropTypes.array,
+    onFollow: PropTypes.func,
+    unFollow: PropTypes.func
+}

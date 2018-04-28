@@ -23,6 +23,7 @@ class RegistrationForm extends React.Component {
                   phone:phone
               }
               signUp(_user).then((res)=>{
+                  if(!res){return;}
                   message.success("注册成功");
                   setTimeout(()=>{
                       signIn({userName:userName,password:password}).then((res)=>{

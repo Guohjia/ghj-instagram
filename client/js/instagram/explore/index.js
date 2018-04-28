@@ -11,7 +11,8 @@ export default class Explore extends Component{
         super(props)
         this.state = {
             posts:[],
-            postsNum:0 //索引位置
+            postsNum:0, //索引位置
+            done:false
         };
         this._handleWaypointEnter=this._handleWaypointEnter.bind(this); 
     }
@@ -22,19 +23,22 @@ export default class Explore extends Component{
             fromIndex:0
         }
         getPosts(params).then((res)=>{
-            let posts;
+            let posts,done;
             res.data.posts.length>3?posts=[res.data.posts.splice(0,3),res.data.posts]:posts=[res.data.posts.splice(0,3)];
+            if(posts.length<6){done=true;}
             this.setState({
                 posts:posts,
-                postsNum:6
+                postsNum:posts.length,
+                done:done
             })
         })
     }
     render(){
-        if(this.state.posts.length === 0){
+        const { posts,done } =this.state;
+        if(posts.length === 0 && !done){
             return <div className="u-center" style={{ top: 500 }}><Icon type="loading" style={{ fontSize: 30}}/></div>;
         }else{
-            let ExploreList=this.state.posts.map((item,index)=>{
+            let ExploreList=posts.map((item,index)=>{
                 return (
                     <ul className="m_row" key={index}>
                         {
@@ -58,11 +62,13 @@ export default class Explore extends Component{
                         <div className="m-ExploreList">
                             {ExploreList}
                         </div>
-                        <Waypoint topOffset={800} onEnter={this._handleWaypointEnter}>
-                            <div className="u-infinite">
-                                <Icon type="loading" style={{ fontSize: 30}}/>
-                            </div>
-                        </Waypoint>
+                        {done?<div className="finish_exp" style={{ textAlign: "center",marginTop: 100,fontSize: 16,color: "#666" }}>哥,这回真没了😭</div>:
+                            <Waypoint topOffset={800} onEnter={this._handleWaypointEnter}>
+                                <div className="u-infinite">
+                                    <Icon type="loading" style={{ fontSize: 30}}/>
+                                </div>
+                            </Waypoint>
+                        } 
                     </div>
                 </div>
             )

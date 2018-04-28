@@ -14,11 +14,27 @@ const signOut = () => {
     return myAxios.get("/api/signout")
 }
 
-//用户相关
+
+//随机获取三个用户/api/getUsers
+const getUsers = params => {
+    return myAxios.get("/api/getUsers",params)
+}
 
 //更新头像
 const updateProtrait= params => {
     return myAxios.post("/api/protrait",params)
+}
+
+//关注
+const reqFollow = params => {
+    params.userId=window.login_user._id;
+    return myAxios.post("/api/follow",params)
+}
+
+//取消关注
+const reqUnFollow = params => {
+    params.userId=window.login_user._id;
+    return myAxios.post("/api/unfollow",params)
 }
 
 //抓取动态 => 每次抓6条;
@@ -71,5 +87,8 @@ module.exports = {
     reqUnLike,
     reqCollect,
     reqUnCollect,
-    updateProtrait
+    reqFollow,
+    reqUnFollow,
+    updateProtrait,
+    getUsers
 };
