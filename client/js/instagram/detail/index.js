@@ -3,9 +3,32 @@ import Style from "./index.less";
 import PropTypes from "prop-types";
 import Comment from "./comment";
 import Modal from "../../component/modal";
-import User_IMG1 from "../../../imgs/curry.jpg";
+import { connect } from "react-redux";
+import { FOLLOW,UNFOLLOW } from "../../store/action/post";
+import { reqFollow,reqUnFollow } from "../../util/request";
 import { getPost } from "../../util/request";
 
+let TORENDER=false;
+@connect(
+    store => {
+        TORENDER =!TORENDER;
+        return {
+            following:store.following,
+            TORENDER:TORENDER
+        }
+    },
+    dispatch => {
+        return {
+            onFollow:id=>{
+                if(!window.login_user){return window.location.href = "/login";}
+                reqFollow({id:id}).then(res =>{ dispatch(FOLLOW(id)) })
+            },
+            unFollow:id =>{
+                reqUnFollow({id:id}).then(res =>{ dispatch(UNFOLLOW(id)) })
+            }
+        };
+    }
+)
 export default class Detail extends Component{
     constructor(props){
         super(props);
@@ -26,7 +49,8 @@ export default class Detail extends Component{
     }
 
     render(){
-        const { user,post } = this.state;
+        let { user,post } = this.state;
+        let { following,onFollow,unFollow } =this.props;
         return (
             <Modal goback={this.props.history.goBack} show={true}>
                 <div className={Style.detail}>
@@ -35,9 +59,12 @@ export default class Detail extends Component{
                     </div>
                     <div className="m-ct">
                         <div className="user">
-                            <img className="user_pic" src={User_IMG1} />
+                            <img className="user_pic" src={user.userImg} />
                             <span className="user_name">{user.userName}   •</span>
-                            <span className="attention_btn btn">关注</span>
+                            { !following || following.indexOf(user._id) === -1?
+                                <span className="attention_btn btn" onClick={()=>{onFollow(user._id)}}>关注</span>:
+                                <span className="attention_btn btn" style={{color: "#262626"}} onClick={()=>{unFollow(user._id)}}>已关注</span>
+                            }
                         </div>
                         <div style={{padding: "10px 25px",color: "#666"}}>{post.content}</div>
                         <Comment />
@@ -51,7 +78,10 @@ export default class Detail extends Component{
 
 Detail.propTypes = {
     history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    following: PropTypes.array,
+    onFollow: PropTypes.func,
+    unFollow: PropTypes.func
 }
 
 
