@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const router = new Router();
 const User = require('../database/model/user');
 const Post = require('../database/model/Post');
-
+const Comment = require('../database/model/comment');
 /**
  * 
  * @param {code} 数据库存储失败 503 
@@ -395,6 +395,29 @@ const AppRouter = (app)=>{
             } 
         }
     });
+
+    //评论 
+    router.post('/api/comment', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码
+        let _CommentParams = JSON.parse(JSON.stringify(ctx.request.body));
+        let _Comment = new Comment(_CommentParams);
+        let resErr;
+        await _Comment.save(function(err,_Post){
+            if(err){resErr=err;}
+        })
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,评论失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200,
+                id:_Comment._id
+            } 
+        }
+    });
+
 }
 
 module.exports = AppRouter;

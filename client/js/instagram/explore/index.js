@@ -25,7 +25,7 @@ export default class Explore extends Component{
     loadPosts(){
         let postsNum = this.state.postsNum;
         getPosts({fromIndex:postsNum}).then((res)=>{
-            let done,newLength= res.data.posts.length+this.state.postsNum,
+            let newLength= res.data.posts.length+this.state.postsNum,
                     newPosts = JSON.parse(JSON.stringify(this.state.posts));
             if(res.data.posts.length>3){
                 newPosts.push(res.data.posts.splice(0,3),res.data.posts)

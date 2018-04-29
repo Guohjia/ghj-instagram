@@ -76,6 +76,12 @@ const reqUnCollect = params => {
     return myAxios.post("/api/unCollect",params)
 }
 
+//评论
+const reqComment = params => {
+    params.from=window.login_user._id;
+    return myAxios.post("/api/comment",params)
+}
+
 module.exports = {
     signIn,
     signUp,
@@ -90,5 +96,6 @@ module.exports = {
     reqFollow,
     reqUnFollow,
     updateProtrait,
-    getUsers
+    getUsers,
+    reqComment
 };
