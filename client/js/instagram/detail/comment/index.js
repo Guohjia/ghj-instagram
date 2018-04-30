@@ -1,53 +1,28 @@
 import React,{Component} from "react";
 import Style from "./index.less";
 import CommentAction from "./CommentAction";
+import { getComments } from "../../../util/request";
 
-
+const post = location.pathname.split("/detail/")[1];
 export default class Comment extends Component{
     constructor(props){
         super(props)
         this.state={
-            comments:[]
+            comments:[],
+            fromIndex:0,
+            done:false
         }
-        // this.comments=[
-        //     {
-        //         content:"i t is fair though he’s been on plenty of other nba teams lol, they just have the right system for guys to work in 🤷🏻‍♂️",
-        //         user:"btudes_24@brandon_westbrook0",
-        //         date:"2018-04-05"
-        //     },
-        //     {
-        //         content:"it 💯",
-        //         user:"cal.ch3Deserves",
-        //         date:"2018-04-04"
-        //     },
-        //     {
-        //         content:"he replacing shaun for pg position soon cause shaun gettin up there in age",
-        //         user:"Calvertis Holden",
-        //         date:"2018-04-03"
-        //     },
-        //     {
-        //         content:"i t is fair though he’s been on plenty of other nba teams lol, they just have the right system for guys to work in 🤷🏻‍♂️",
-        //         user:"btudes_24@brandon_westbrook0",
-        //         date:"2018-04-01"
-        //     },
-        //     {
-        //         content:"it 💯",
-        //         user:"cal.ch3Deserves",
-        //         date:"2018-04-09"
-        //     },
-        //     {
-        //         content:"he replacing shaun for pg position soon cause shaun gettin up there in age",
-        //         user:"Calvertis Holden",
-        //         date:"2018-04-13"
-        //     }
-        // ]
+    }
+
+    componentDidMount(){
+        this.loadComments();
     }
 
     render(){
         let comments= this.state.comments.map((item,index)=>{
             return (
-                <li className="comment_item" key={item.id}>
-                    <a className="cm_Name">{item.user}</a>
+                <li className="comment_item" key={item._id}>
+                    <a className="cm_Name">{item.userName}</a>
                     <span className="cm_ct">{item.content}</span>
                 </li>
             )
@@ -56,7 +31,12 @@ export default class Comment extends Component{
             <div className={Style.Comment}>
                 <div className="m-comment">
                     <ul>{comments}</ul>
-                    <div className="btn loadMore">加载更多</div>
+                    <div className="loadMore">
+                        {this.state.done?
+                            <span>暂无更多</span>:
+                            <span className="btn" onClick={this.loadComments.bind(this)}>加载更多</span>
+                        }
+                    </div>
                 </div>
                 <CommentAction addComment={this.addComment.bind(this)}/>
             </div>
@@ -68,5 +48,18 @@ export default class Comment extends Component{
         let newState =  JSON.parse(JSON.stringify(this.state));
         newState.comments.unshift(comment);
         this.setState(newState);
+    }
+
+    loadComments(){
+        let { fromIndex,comments } = this.state;
+        getComments({fromIndex:fromIndex,post:post}).then( res =>{
+            let newIndex = fromIndex+res.data.comments.length;
+            let newComments = comments.concat(res.data.comments);
+            this.setState({
+                fromIndex:newIndex,
+                comments:newComments,
+                done:res.data.done
+            });
+        })
     }
 }

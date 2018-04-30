@@ -418,6 +418,33 @@ const AppRouter = (app)=>{
         }
     });
 
+    //获取评论
+    router.get('/api/getComments', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码ctx.query
+        let { fromIndex,post } = ctx.query;
+        let resComments = [],resErr,done=false;
+        await Comment.find({post:post},(err,comments)=>{
+            if(err){resErr=err;return;}
+            if(comments){resComments = comments}
+        }).sort({_id: -1}).skip(+fromIndex).limit(10)
+        if(resComments.length<10){
+            //数据已经全部读完
+            done=true;
+        }
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取评论失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200,
+                comments:resComments || [],
+                done:done
+            } 
+        }
+    });
+
 }
 
 module.exports = AppRouter;

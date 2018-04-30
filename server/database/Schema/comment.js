@@ -5,6 +5,7 @@ const ObjectId = Schema.Types.ObjectId;
 const  CommentSchema = new mongoose.Schema({
     post:{type:ObjectId,ref:'Post'},
     from:{type:ObjectId,ref:'User'},
+    userName:String,
     // to:{type:ObjectId,ref:'User'},
     content: String,
     meta: {

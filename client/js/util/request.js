@@ -82,6 +82,12 @@ const reqComment = params => {
     return myAxios.post("/api/comment",params)
 }
 
+//抓取评论 => 每次抓10条;
+const getComments = params => {
+    return myAxios.get("/api/getComments",params)
+}
+
+
 module.exports = {
     signIn,
     signUp,
@@ -97,5 +103,6 @@ module.exports = {
     reqUnFollow,
     updateProtrait,
     getUsers,
-    reqComment
+    reqComment,
+    getComments
 };

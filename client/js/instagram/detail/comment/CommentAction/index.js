@@ -82,12 +82,13 @@ export default class CommentAction extends Component{
         let content = e.target.value;
         reqComment({
             content:content,
+            userName:window.login_user.userName,
             post:post
         }).then(res =>{
             let newComment = {
                 content:content,
-                user:window.login_user.userName,
-                id:res.data.id
+                userName:window.login_user.userName,
+                _id:res.data.id
             };
             this.props.addComment(newComment);
             this.setState({commentValue:""})

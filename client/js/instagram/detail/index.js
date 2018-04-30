@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { FOLLOW,UNFOLLOW } from "../../store/action/post";
 import { reqFollow,reqUnFollow } from "../../util/request";
 import { getPost } from "../../util/request";
+import { message } from "antd";
 
 let TORENDER=false;
 @connect(
@@ -20,7 +21,8 @@ let TORENDER=false;
     dispatch => {
         return {
             onFollow:id=>{
-                if(!window.login_user){return window.location.href = "/login";}
+                // if(!window.login_user){return window.location.href = "/login";}
+                if(window.login_user._id === id ){return message.info("你不用关注你自己哦😅")}
                 reqFollow({id:id}).then(res =>{ dispatch(FOLLOW(id)) })
             },
             unFollow:id =>{
