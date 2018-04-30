@@ -3,7 +3,7 @@ import Style from "./index.less";
 import CommentAction from "./CommentAction";
 import { getComments } from "../../../util/request";
 
-const post = location.pathname.split("/detail/")[1];
+
 export default class Comment extends Component{
     constructor(props){
         super(props)
@@ -52,6 +52,7 @@ export default class Comment extends Component{
 
     loadComments(){
         let { fromIndex,comments } = this.state;
+        let post = location.pathname.split("/detail/")[1];
         getComments({fromIndex:fromIndex,post:post}).then( res =>{
             let newIndex = fromIndex+res.data.comments.length;
             let newComments = comments.concat(res.data.comments);

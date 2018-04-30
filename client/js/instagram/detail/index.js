@@ -21,7 +21,7 @@ let TORENDER=false;
     dispatch => {
         return {
             onFollow:id=>{
-                // if(!window.login_user){return window.location.href = "/login";}
+                if(!window.login_user){return window.location.href = "/login";}
                 if(window.login_user._id === id ){return message.info("你不用关注你自己哦😅")}
                 reqFollow({id:id}).then(res =>{ dispatch(FOLLOW(id)) })
             },

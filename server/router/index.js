@@ -216,7 +216,7 @@ const AppRouter = (app)=>{
     router.get('/api/getPosts', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码ctx.query
         let { fromIndex } = ctx.query;
-        let resPosts,resErr,done=false;
+        let resPosts=[],resErr,done=false;
         await Post.find({},(err,posts)=>{
             if(err){resErr=err;return;}
             if(posts){resPosts = posts}
@@ -439,7 +439,7 @@ const AppRouter = (app)=>{
         }else{
             ctx.body = {
                 code:200,
-                comments:resComments || [],
+                comments:resComments,
                 done:done
             } 
         }
