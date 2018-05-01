@@ -109,6 +109,7 @@ export default class CommentAction extends Component{
     }
 
     onComment(e,post){
+        if(!e.target.value){return;}
         let content = e.target.value;
         reqComment({
             content:content,

@@ -159,8 +159,6 @@ const AppRouter = (app)=>{
     });
 
     //随机获得三个用户数据
-    //Math.floor(Math.random() * (max+1 - min) + min)
-    //max  => User.find({}).length()-3
     router.get('/api/getUsers', async (ctx, next) => {
         let users;
         if(ctx.session.user){

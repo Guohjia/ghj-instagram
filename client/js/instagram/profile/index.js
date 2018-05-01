@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Style from "./index.less";
-import { Tabs } from "antd";
 import UserSetting from "./userSetting";
+import UserPosts from "./userPosts";
 import Nav from "../../component/nav";
 import { Upload,message } from "antd";
 import { updateProtrait } from "../../util/request"
@@ -35,7 +35,6 @@ export default class Profile  extends Component {
     }
   
     render(){
-        const TabPane = Tabs.TabPane;
         const { userName,post,follower,following,userImg } = this.state;
         return (
             <div className="instagram">
@@ -55,7 +54,6 @@ export default class Profile  extends Component {
                             <div className="m-name">
                                 <h1 className="name">{userName}</h1>
                                 <UserSetting />
-                                {/* 这里添加modal退出登陆用的 */}
                             </div>
                             <div className="m-activity-num">
                                 <span>{post.length}帖子</span>
@@ -65,19 +63,12 @@ export default class Profile  extends Component {
                         </div>
                     </div>
                     <div className="m-activity">
-                        <Tabs defaultActiveKey="post" onChange={this.tabsChange.bind(this)}>
-                            <TabPane tab="帖子" key="post">这里是帖子</TabPane>
-                            <TabPane tab="收藏夹" key="favorite">这里是收藏夹</TabPane>
-                        </Tabs>
+                        <UserPosts />
                     </div>
                 </div>
             </div>
         )
-    }
-
-    tabsChange(){
-        console.log("tabsChange....")
-    }   
+    } 
 }
 
 ReactDOM.render(
