@@ -6,6 +6,8 @@ import UserPosts from "./userPosts";
 import Nav from "../../component/nav";
 import { Upload,message } from "antd";
 import { updateProtrait } from "../../util/request"
+import { BrowserRouter as Router,Route} from "react-router-dom";
+import Detail from "../detail";
 
 const Upload_Token = "HjqY4nn-N7JIBvt1YPDzj4gHjhEte-asl4hQdxHz:NHVUgiTeHWyxR3RqQWIP0y4OKrE=:eyJzY29wZSI6Im11c2ljIiwiZGVhZGxpbmUiOjE4NjI4NDUyMDB9";
 export default class Profile  extends Component {
@@ -62,9 +64,12 @@ export default class Profile  extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="m-activity">
-                        <UserPosts />
-                    </div>
+                    <Router>
+                        <div className="m-activity">
+                            <UserPosts />
+                            <Route path="/detail" component={Detail}/>
+                        </div>
+                    </Router>
                 </div>
             </div>
         )

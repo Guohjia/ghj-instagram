@@ -23,7 +23,9 @@ export default class InfiniteScroll extends Component{
 
     loadPosts(){
         let postsNum = this.state.postsNum;
-        this.props.getPosts({fromIndex:postsNum}).then((res)=>{
+        let { getPosts,postParams={} } =this.props;
+        postParams.fromIndex=postsNum;
+        getPosts(postParams).then((res)=>{
             let newLength= res.data.posts.length+this.state.postsNum,
                     newPosts = JSON.parse(JSON.stringify(this.state.posts));
             if(res.data.posts.length>3){
@@ -95,7 +97,8 @@ export default class InfiniteScroll extends Component{
 }
 
 InfiniteScroll.propTypes = {
-    getPosts: PropTypes.func
+    getPosts: PropTypes.func.isRequired,
+    postParams:PropTypes.object
 }
 
 

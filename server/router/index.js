@@ -237,7 +237,36 @@ const AppRouter = (app)=>{
             } 
         }
     });
-    
+
+    //根据id获取动态
+    router.get('/api/postsById', async (ctx, next) => {
+        //获取Id操作数据库,操作成功返回状态码ctx.query
+        let { fromIndex,postIds }= ctx.query;
+        let resPosts=[],resErr,done=false;
+
+        await Post.find({_id:{$in:JSON.parse(postIds)}},(err,post)=>{
+            if(err){resErr=err;return;}
+            if(post&&post.length>0){resPosts = post;}
+        }).skip(+fromIndex).limit(6)
+        
+        if(resPosts.length<6){
+            //数据已经全部读完
+            done=true
+        }
+        if(resErr){
+            ctx.body = {
+                code:503,
+                message:'数据库错误,获取个人动态失败' 
+            }
+        }else{
+            ctx.body = {
+                code:200,
+                posts:resPosts,
+                done:done
+            } 
+        }
+    });
+
     //获取一条动态
     router.get('/api/getPost', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码ctx.query

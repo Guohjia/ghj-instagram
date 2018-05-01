@@ -42,6 +42,11 @@ const getPosts = params => {
     return myAxios.get("/api/getPosts",params)
 }
 
+//抓取动态 => 根据id抓取;
+const getPostsById = params => {
+    return myAxios.get("/api/postsById",params)
+}
+
 //抓取一条动态
 const getPost = params => {
     return myAxios.get("/api/getPost",params)
@@ -93,6 +98,7 @@ module.exports = {
     signUp,
     signOut,
     getPosts,
+    getPostsById,
     getPost,
     sendPost,
     reqLike,
