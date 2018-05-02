@@ -3,7 +3,7 @@ import { Button,Icon } from "antd";
 import Style from "./index.less";
 import { getUsers } from "../../util/request"
 import { connect } from "react-redux";
-import { FOLLOW,UNFOLLOW } from "../../store/action/post";
+import { FOLLOW,UNFOLLOW } from "../../store/action/user";
 import { reqFollow,reqUnFollow } from "../../util/request";
 import PropTypes from "prop-types";
 
@@ -12,7 +12,7 @@ let TORENDER=false;
     store => {
         TORENDER =!TORENDER;
         return {
-            following:store.following,
+            following:store.user.following,
             TORENDER:TORENDER
         }
     },

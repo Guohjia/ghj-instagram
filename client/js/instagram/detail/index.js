@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import Comment from "./comment";
 import Modal from "../../component/modal";
 import { connect } from "react-redux";
-import { FOLLOW,UNFOLLOW } from "../../store/action/post";
+import store from "../../store/store";
+import { INIT_NUM } from "../../store/action/post";
+import { FOLLOW,UNFOLLOW } from "../../store/action/user";
 import { reqFollow,reqUnFollow } from "../../util/request";
 import { getPost } from "../../util/request";
 import { message } from "antd";
@@ -14,7 +16,7 @@ let TORENDER=false;
     store => {
         TORENDER =!TORENDER;
         return {
-            following:store.following,
+            following:store.user.following,
             TORENDER:TORENDER
         }
     },
@@ -46,7 +48,9 @@ export default class Detail extends Component{
             this.setState({
                 user:res.data.user,
                 post:res.data.post
-            })
+            });
+            let { likeNum,collectNum } = res.data.post;
+            store.dispatch(INIT_NUM({likeNum:likeNum,collectNum:collectNum}))
         })
     }
 
@@ -62,7 +66,7 @@ export default class Detail extends Component{
                     </div>
                     <div className="m-ct">
                         <div className="user">
-                            <img className="user_pic" src={user.userImg} />
+                            {user?<img className="user_pic" src={user.userImg} />:<img className="user_pic" src="http://ovqcrw9cu.bkt.clouddn.com/defaultIUser.jpg" />}      
                             <span className="user_name">{user.userName}   •</span>
                             { !following || following.indexOf(user._id) === -1?
                                 <span className="attention_btn btn" onClick={()=>{onFollow(user._id)}}>关注</span>:

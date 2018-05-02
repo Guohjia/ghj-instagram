@@ -3,7 +3,7 @@ import Style from "./index.less";
 import { message,Input,Button } from "antd";
 import PicturesWall from "./Upload";
 import { sendPost } from "../../../util/request";
-import { POST } from "../../../store/action/post";
+import { POST } from "../../../store/action/user";
 import store from "../../../store/store";
 import PropTypes from "prop-types";
 

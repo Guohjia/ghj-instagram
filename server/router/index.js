@@ -23,7 +23,7 @@ const AppRouter = (app)=>{
         await ctx.render('index', params)
     });
     
-    
+
     router.get('/login', async (ctx, next) => {
         //已经登陆的情况下访问该页面?
         // console.log(ctx.session)
@@ -317,6 +317,11 @@ const AppRouter = (app)=>{
         await User.update({_id:userId},{$addToSet:{like:id}}).catch(err => {
             resErr = err;
         });
+
+        await Post.update({_id:id},{$inc:{likeNum:1}}).catch(err => {
+            resErr = err;
+        });
+        
         if(resErr){
             ctx.body = {
                 code:503,
@@ -337,6 +342,11 @@ const AppRouter = (app)=>{
         await User.update({_id:userId},{$pull:{like:id}}).catch(err => {
             resErr = err;
         });
+
+        await Post.update({_id:id},{$inc:{likeNum:-1}}).catch(err => {
+            resErr = err;
+        });
+
         if(resErr){
             ctx.body = {
                 code:503,
@@ -357,6 +367,11 @@ const AppRouter = (app)=>{
         await User.update({_id:userId},{$addToSet:{collect:id}}).catch(err => {
             resErr = err;
         });
+
+        await Post.update({_id:id},{$inc:{collectNum:1}}).catch(err => {
+            resErr = err;
+        });
+
         if(resErr){
             ctx.body = {
                 code:503,
@@ -377,6 +392,11 @@ const AppRouter = (app)=>{
         await User.update({_id:userId},{$pull:{collect:id}}).catch(err => {
             resErr = err;
         });
+
+        await Post.update({_id:id},{$inc:{collectNum:-1}}).catch(err => {
+            resErr = err;
+        });
+
         if(resErr){
             ctx.body = {
                 code:503,

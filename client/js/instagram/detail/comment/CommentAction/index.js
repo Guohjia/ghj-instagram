@@ -4,36 +4,41 @@ import Style from "./index.less";
 import { Input } from "antd";
 import { icon as Icon,Modal } from "antd";
 import { connect } from "react-redux";
-import { LIKE,UNLIKE,COLLECT,UNCOLLECT } from "../../../../store/action/post";
+import { LIKE,UNLIKE,COLLECT,UNCOLLECT } from "../../../../store/action/user";
+import { LIKE_NUM,UNLIKE_NUM,COLLECT_NUM,UNCOLLECT_NUM } from "../../../../store/action/post";
 import PropTypes from "prop-types";
 import { reqLike,reqUnLike,reqCollect,reqUnCollect,reqComment } from "../../../../util/request";
 import { dateDuration } from "../../../../util/fn";
 
 let TORENDER=false; 
+
 //渲染控制,貌似connect对返回对象的watch只有一层;
 //question:如果里面的数组改变,是不会触发重新render的 => 后续可能要优化
 @connect(
     store => {
         TORENDER=!TORENDER;
+        console.log(store)
         return {
-            like:store.like,
-            collect:store.collect,
+            like:store.user.like,
+            likeNum:store.post.likeNum,
+            collectNum:store.post.collectNum,
+            collect:store.user.collect,
             TORENDER:TORENDER
         }
     },
     dispatch => {
         return {
             onLike:id=>{
-                reqLike({id:id}).then(res =>{ dispatch(LIKE(id)) })
+                reqLike({id:id}).then(res =>{ dispatch(LIKE(id));dispatch(LIKE_NUM) })
             },
             unLike:id =>{
-                reqUnLike({id:id}).then(res =>{ dispatch(UNLIKE(id)) })
+                reqUnLike({id:id}).then(res =>{ dispatch(UNLIKE(id));dispatch(UNLIKE_NUM) })
             },
             onCollect:id=>{
-                reqCollect({id:id}).then(res =>{ dispatch(COLLECT(id)) })
+                reqCollect({id:id}).then(res =>{ dispatch(COLLECT(id));dispatch(COLLECT_NUM) })
             },
             unCollect:id =>{
-                reqUnCollect({id:id}).then(res =>{ dispatch(UNCOLLECT(id)) })
+                reqUnCollect({id:id}).then(res =>{ dispatch(UNCOLLECT(id));dispatch(UNCOLLECT_NUM) })
             }
         };
     }
@@ -51,7 +56,7 @@ export default class CommentAction extends Component{
 
     render(){
         // console.log(this.props)
-        let { like = [],collect = [],onLike,unLike,onCollect,unCollect } = this.props,postId = location.pathname.split("/detail/")[1];
+        let { like = [],collect = [],onLike,unLike,onCollect,unCollect,likeNum=0,collectNum=0 } = this.props,postId = location.pathname.split("/detail/")[1];
         return (
             <div className={Style.CommentAction}>
                 <div className="m-action_icon">
@@ -66,7 +71,10 @@ export default class CommentAction extends Component{
                             <Icon type="star" style={{ color: "rgb(255,57,70)" }} className="icon" onClick={()=>{unCollect(postId)}}/>
                             :<Icon type="star-o" className="icon" onClick={()=>{if(this.ifLogin())onCollect(postId)}}/>}
                     </span>
-                    <div className="like_num">1001次赞</div>
+                    <div  className="u-clear">
+                        {likeNum>0?<div className="like_num">{likeNum}次赞</div>:null}
+                        {collectNum>0?<div className="collect_num">{collectNum}次收藏</div>:null}
+                    </div>
                     <div className="com_date">{dateDuration(this.props.postDuration)}</div>
                 </div>
                 <div className="comment_input">     
@@ -136,6 +144,8 @@ CommentAction.propTypes = {
     onCollect: PropTypes.func,
     unCollect: PropTypes.func,
     like: PropTypes.array,
+    likeNum:PropTypes.number,
+    collectNum:PropTypes.number,
     collect: PropTypes.array,
     addComment: PropTypes.func,
     postDuration:PropTypes.string

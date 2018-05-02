@@ -41,7 +41,6 @@ const reqUnFollow = params => {
 const getPosts = params => {
     return myAxios.get("/api/getPosts",params).then(res=>{
         if(res.data.posts.length === 0){
-            console.log("全部动态抓取重试")
             return myAxios.get("/api/getPosts",params)
         }else{
             return res
