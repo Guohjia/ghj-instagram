@@ -8,6 +8,10 @@ const  UserSchema = new mongoose.Schema({
         unique: true,
         type: String
     },
+    userImg:{
+        type:String,
+        default:'http://ovqcrw9cu.bkt.clouddn.com/defaultIUser.jpg'
+    },
     follower:Array,
     following:Array,
     password: String,

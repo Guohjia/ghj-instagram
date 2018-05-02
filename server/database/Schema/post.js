@@ -3,15 +3,21 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const  PostSchema = new mongoose.Schema({
-    pvUrl: {
-        unique: true,
-        type: String
-    },
+    pvUrl: String,
     content:String,
     from:{type:ObjectId,ref:'User'},
-    commentNum: Number,
-    likeNum: Number,
-    collectNum: Number,
+    commentNum: {
+        type: Number,
+        default: 0
+    },
+    likeNum: {
+        type: Number,
+        default: 0
+    },
+    collectNum: {
+        type: Number,
+        default: 0
+    },
     meta: {
         createAt: {
             type: Date,

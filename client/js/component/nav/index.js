@@ -40,10 +40,7 @@ export default class Nav extends Component{
         )
     }
     toPost(){
-        if(sessionStorage.length === 0){
-            window.location.href = "/login";
-            return;
-        }
+        if(!window.login_user){return window.location.href = "/login";}
         this.setState(Object.assign(this.state,{post:true}))
     }
     onScroll(event){

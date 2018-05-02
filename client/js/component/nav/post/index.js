@@ -3,6 +3,8 @@ import Style from "./index.less";
 import { message,Input,Button } from "antd";
 import PicturesWall from "./Upload";
 import { sendPost } from "../../../util/request";
+import { POST } from "../../../store/action/user";
+import store from "../../../store/store";
 import PropTypes from "prop-types";
 
 export default class Post extends Component{
@@ -22,7 +24,7 @@ export default class Post extends Component{
                 <div className="m-postContent">
                     <TextArea rows={4} placeholder="说些什么吧..." onBlur={this.getContent.bind(this)} ref={textArea=>this.textArea=textArea}/>
                 </div>
-                <div className="m-postUpload">
+                <div className="m-postUpload u-clear">
                     <PicturesWall getUrl={this.getUrl.bind(this)}/>
                 </div>
                 <div className="post_btn">
@@ -52,7 +54,7 @@ export default class Post extends Component{
         let { content,pvUrl } = this.state;
         let post = {
             content:content,
-            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl+"?imageView2/1/w/300/h/300/format/png/q/75|imageslim",
+            pvUrl:"http://ovqcrw9cu.bkt.clouddn.com/"+pvUrl,
             commentNum: 0,
             likeNum: 0,
             collectNum: 0,
@@ -60,13 +62,10 @@ export default class Post extends Component{
         }
         
         sendPost(post).then((res)=>{
-            if(res.data.code === 200){
-                message.success("动态发布成功");
-                this.setState(Object.assign(this.state,{pubLoading:false}));
-                this.props.modalClose();
-            }else{
-                message.error("动态发布失败"+res.message);
-            }
+            this.setState(Object.assign(this.state,{pubLoading:false}));
+            store.dispatch(POST(res.data.id))
+            this.props.modalClose();
+            message.success("发布成功👍🤣")
         })
     }
 }

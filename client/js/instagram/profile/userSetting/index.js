@@ -25,7 +25,6 @@ export default class UserSetting extends Component {
                         </ul>
                     </div>
                 </Modal>
-                {/* 这里添加modal退出登陆用的 */}
             </div>
         )
     }

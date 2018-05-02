@@ -1,120 +1,134 @@
-import axios from "axios";
-// import md5 from "blueimp-md5";
-// import sha1 from "js-sha1";
+import myAxios from "./axios"
 
 
 //登录相关
 const signIn = params => {
-    let options ={
-        method: "POST",
-        // headers:{ "content-type": "application/x-www-form-urlencoded" },
-        data:params,
-        url:"/api/signin"
-    }
-    return axios(options).catch(function (error) {
-        console.log(error);
-    })
+    return myAxios.post("/api/signin",params)
 }
 
 const signUp = params => {
-    let options ={
-        method: "POST",
-        // headers:{ "content-type": "application/x-www-form-urlencoded" },
-        data:params,
-        url:"/api/signup"
-    }
-    return axios(options).catch(function (error) {
-        console.log(error);
-    })
+    return myAxios.post("/api/signup",params)
 }
 
 const signOut = () => {
-    return axios.get("/api/signout").catch(function (error) {
-        console.log(error);
-    })
+    return myAxios.get("/api/signout")
 }
 
-// const getCaptcha = params => {
-//     let Nonce = md5(Math.random()),CurTime = Date.parse(new Date())/1000,
-//             CheckSum=sha1("15ba107247f0"+Nonce+CurTime);
-//     fetch("https://api.netease.im/sms/sendcode.action", {
-//         body: JSON.stringify(params), 
-//         method: "POST", 
-//         headers: {
-//             "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-//             "AppKey": "2a8cc1af1e661cc5c078e1f8b3819108",
-//             "CurTime": CurTime,
-//             "CheckSum": CheckSum,
-//             "Nonce":Nonce
-//         },
-//         mode: "no-cors" // no-cors, cors, *same-origin
-//     })
 
-// axios(options).catch(function (error) {
-//     console.log(error);
-// }).then((code)=>{
-//     console.log(code)
-// })
-// return axios(options).catch(function (error) {
-//     console.log(error);
-// }).then((code)=>{
-//     console.log(code)
-// })
-// }
+//随机获取三个用户/api/getUsers
+const getUsers = params => {
+    return myAxios.get("/api/getUsers",params)
+}
 
+//更新头像
+const updateProtrait= params => {
+    return myAxios.post("/api/protrait",params)
+}
+
+//关注
+const reqFollow = params => {
+    params.userId=window.login_user._id;
+    return myAxios.post("/api/follow",params)
+}
+
+//取消关注
+const reqUnFollow = params => {
+    params.userId=window.login_user._id;
+    return myAxios.post("/api/unfollow",params)
+}
 
 //抓取动态 => 每次抓6条;
 const getPosts = params => {
-    return axios.get("/api/getPosts",{params:params}).catch(function (error) {
-        console.log(error);
+    return myAxios.get("/api/getPosts",params).then(res=>{
+        if(res.data.posts.length === 0){
+            return myAxios.get("/api/getPosts",params)
+        }else{
+            return res
+        }
     })
+}
+
+//抓取动态 => 根据id抓取;
+const getPostsById = params => {
+    return myAxios.get("/api/postsById",params)
 }
 
 //抓取一条动态
 const getPost = params => {
-    return axios.get("/api/getPost",{params:params}).catch(function (error) {
-        console.log(error);
+    return myAxios.get("/api/getPost",params).then(res=>{
+        if(!res.data.user || !res.data.post){
+            // console.log("动态详情抓取重试")
+            return myAxios.get("/api/getPost",params)
+        }else{
+            return res
+        }
     })
 }
 
 //发布动态
 const sendPost = params => {
-    return axios.post("/api/post",params).catch(function (error) {
-        console.log(error);
-    })
+    return myAxios.post("/api/post",params)
 }
 
 //点赞
 const reqLike = params => {
     params.userId=window.login_user._id;
-    return axios.post("/api/like",params).catch(function (error) {
-        console.log(error);
-    })
+    return myAxios.post("/api/like",params)
 }
 
 //取消赞
 const reqUnLike = params => {
     params.userId=window.login_user._id;
-    return axios.post("/api/unLike",params).catch(function (error) {
-        console.log(error);
+    return myAxios.post("/api/unlike",params)
+}
+
+//收藏
+const reqCollect = params => {
+    params.userId=window.login_user._id;
+    return myAxios.post("/api/collect",params)
+}
+
+//取消收藏
+const reqUnCollect = params => {
+    params.userId=window.login_user._id;
+    return myAxios.post("/api/unCollect",params)
+}
+
+//评论
+const reqComment = params => {
+    params.from=window.login_user._id;
+    return myAxios.post("/api/comment",params)
+}
+
+//抓取评论 => 每次抓10条;
+const getComments = params => {
+    return myAxios.get("/api/getComments",params).then(res=>{
+        if(res.data.comments.length === 0){
+            // console.log("评论重试")
+            return myAxios.get("/api/getComments",params)
+        }else{
+            return res
+        }
     })
 }
 
-//获取登录用户详情
-const getUser = params => {
-    return axios.get("/api/getUser",{params:params}).catch(function (error) {
-        console.log(error);
-    })
-}
 
 module.exports = {
     signIn,
     signUp,
     signOut,
     getPosts,
+    getPostsById,
     getPost,
     sendPost,
-    getUser,
     reqLike,
-    reqUnLike
+    reqUnLike,
+    reqCollect,
+    reqUnCollect,
+    reqFollow,
+    reqUnFollow,
+    updateProtrait,
+    getUsers,
+    reqComment,
+    getComments
 };
