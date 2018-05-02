@@ -13,7 +13,7 @@ export default class Explore extends Component{
             <div className={Style.explore}> 
                 <h2 className="title">探索</h2>
                 <div className="m_Infinite">
-                    <InfiniteScroll getPosts={getPosts}/>
+                    <InfiniteScroll getPosts={getPosts} singlePath="/detail/"/>
                 </div>
             </div>
         )

@@ -12,6 +12,18 @@ const AppRouter = (app)=>{
     .use(router.routes())
     .use(router.allowedMethods());
 
+    router.get('/', async (ctx, next) => {
+        let params={};
+        if(ctx.session.user){  //刷新页面更新session
+            let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
+            if(matchUser){ctx.session.user = matchUser;}
+            params=JSON.parse(JSON.stringify(ctx.session.user));
+        }
+        params.pageTitle='Instagram';
+        await ctx.render('index', params)
+    });
+    
+    
     router.get('/login', async (ctx, next) => {
         //已经登陆的情况下访问该页面?
         // console.log(ctx.session)
@@ -31,22 +43,24 @@ const AppRouter = (app)=>{
         params.pageTitle='Instagram';
         await ctx.render('profile', params)
     });
+
+    router.get('/profile/detail/:id', async (ctx, next) => {
+        console.log(1222)
+        if(ctx.session.user){
+            let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
+            if(matchUser){ctx.session.user = matchUser;}
+            params=JSON.parse(JSON.stringify(ctx.session.user));
+        }else{
+            return ctx.redirect('/login')
+        }
+        params.pageTitle='Instagram';
+        await ctx.render('profile', params)
+    });
     
     //spa => 依然返回主页
     router.get('/detail/:id', async (ctx, next) => {
         let params={};
         if(ctx.session.user){
-            let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
-            if(matchUser){ctx.session.user = matchUser;}
-            params=JSON.parse(JSON.stringify(ctx.session.user));
-        }
-        params.pageTitle='Instagram';
-        await ctx.render('index', params)
-    });
-    
-    router.get('/', async (ctx, next) => {
-        let params={};
-        if(ctx.session.user){  //刷新页面更新session
             let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
             if(matchUser){ctx.session.user = matchUser;}
             params=JSON.parse(JSON.stringify(ctx.session.user));
@@ -271,7 +285,7 @@ const AppRouter = (app)=>{
     router.get('/api/getPost', async (ctx, next) => {
         //获取Id操作数据库,操作成功返回状态码ctx.query
         let id= ctx.query.postId;
-        let resPosts,resErr,user;
+        let resPost,resErr,user,userId;
         await Post.findOne({_id:id},(err,post)=>{
             if(err){resErr=err;return;}
             if(post){resPost = post;userId=post.from;}

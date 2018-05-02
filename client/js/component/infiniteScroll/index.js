@@ -54,7 +54,7 @@ export default class InfiniteScroll extends Component{
                             item.map((item)=>{
                                 return (
                                     <li className="item" key={item._id}>
-                                        <Link to={`/detail/${item._id}`}>
+                                        <Link to={this.props.singlePath+item._id}>
                                             <img src={item.pvUrl} alt={item.content}/>
                                         </Link>
                                     </li>
@@ -98,7 +98,8 @@ export default class InfiniteScroll extends Component{
 
 InfiniteScroll.propTypes = {
     getPosts: PropTypes.func.isRequired,
-    postParams:PropTypes.object
+    postParams:PropTypes.object,
+    singlePath: PropTypes.string.isRequired
 }
 
 

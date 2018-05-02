@@ -18,12 +18,12 @@ export default class UserPosts extends Component {
             <div className={Style.UserPosts}>
                 <Tabs defaultActiveKey="post" onChange={this.tabsChange.bind(this)}>
                     <TabPane tab="帖子" key="post">
-                        <InfiniteScroll getPosts={getPostsById} postParams={{postIds:JSON.stringify(window.login_user.post)}}/>
+                        <InfiniteScroll singlePath="/profile/detail/" getPosts={getPostsById} postParams={{postIds:JSON.stringify(window.login_user.post)}}/>
                     </TabPane>
                     <TabPane tab="收藏夹" key="favorite">
                         {this.state.tabKey !== "favorite"?
                             <div className="u_loading"><Icon type="loading" style={{ fontSize: 30}}/></div>:
-                            <InfiniteScroll getPosts={getPostsById} postParams={{postIds:JSON.stringify(window.login_user.collect)}}/>
+                            <InfiniteScroll singlePath="/profile/detail/" getPosts={getPostsById} postParams={{postIds:JSON.stringify(window.login_user.collect)}}/>
                         }
                     </TabPane>
                 </Tabs>
