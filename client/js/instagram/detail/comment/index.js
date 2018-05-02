@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import Style from "./index.less";
 import CommentAction from "./CommentAction";
 import { getComments } from "../../../util/request";
-
+import PropTypes from "prop-types";
 
 export default class Comment extends Component{
     constructor(props){
@@ -38,7 +38,7 @@ export default class Comment extends Component{
                         }
                     </div>
                 </div>
-                <CommentAction addComment={this.addComment.bind(this)}/>
+                <CommentAction addComment={this.addComment.bind(this)} postDuration={this.props.postDuration}/>
             </div>
         )
 
@@ -63,4 +63,9 @@ export default class Comment extends Component{
             });
         })
     }
+}
+
+
+Comment.propTypes = {
+    postDuration:PropTypes.string
 }

@@ -52,7 +52,8 @@ export default class Detail extends Component{
 
     render(){
         let { user,post } = this.state;
-        let { following,onFollow,unFollow } =this.props;
+        let { following,onFollow,unFollow } =this.props,postDuration="";
+        if(post.meta){ postDuration = post.meta.updateAt;}
         return (
             <Modal goback={this.props.history.goBack} show={true}>
                 <div className={Style.detail}>
@@ -69,7 +70,7 @@ export default class Detail extends Component{
                             }
                         </div>
                         <div style={{padding: "10px 25px",color: "#666"}}>{post.content}</div>
-                        <Comment />
+                        <Comment postDuration={ postDuration||""}/>
                     </div>
                 </div>
             </Modal>

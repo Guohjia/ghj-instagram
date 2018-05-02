@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { LIKE,UNLIKE,COLLECT,UNCOLLECT } from "../../../../store/action/post";
 import PropTypes from "prop-types";
 import { reqLike,reqUnLike,reqCollect,reqUnCollect,reqComment } from "../../../../util/request";
+import { dateDuration } from "../../../../util/fn";
 
 let TORENDER=false; 
 //渲染控制,貌似connect对返回对象的watch只有一层;
@@ -66,7 +67,7 @@ export default class CommentAction extends Component{
                             :<Icon type="star-o" className="icon" onClick={()=>{if(this.ifLogin())onCollect(postId)}}/>}
                     </span>
                     <div className="like_num">1001次赞</div>
-                    <div className="com_date">1天前</div>
+                    <div className="com_date">{dateDuration(this.props.postDuration)}</div>
                 </div>
                 <div className="comment_input">     
                     <Input placeholder="Add Comment" value={ this.state.commentValue } onInput={ this.onInput.bind(this) } 
@@ -136,7 +137,8 @@ CommentAction.propTypes = {
     unCollect: PropTypes.func,
     like: PropTypes.array,
     collect: PropTypes.array,
-    addComment: PropTypes.func
+    addComment: PropTypes.func,
+    postDuration:PropTypes.string
 }
 
 
