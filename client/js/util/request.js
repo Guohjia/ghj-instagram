@@ -39,7 +39,14 @@ const reqUnFollow = params => {
 
 //抓取动态 => 每次抓6条;
 const getPosts = params => {
-    return myAxios.get("/api/getPosts",params)
+    return myAxios.get("/api/getPosts",params).then(res=>{
+        if(res.data.posts.length === 0){
+            console.log("全部动态抓取重试")
+            return myAxios.get("/api/getPosts",params)
+        }else{
+            return res
+        }
+    })
 }
 
 //抓取动态 => 根据id抓取;
@@ -49,7 +56,14 @@ const getPostsById = params => {
 
 //抓取一条动态
 const getPost = params => {
-    return myAxios.get("/api/getPost",params)
+    return myAxios.get("/api/getPost",params).then(res=>{
+        if(!res.data.user || !res.data.post){
+            // console.log("动态详情抓取重试")
+            return myAxios.get("/api/getPost",params)
+        }else{
+            return res
+        }
+    })
 }
 
 //发布动态
@@ -89,7 +103,14 @@ const reqComment = params => {
 
 //抓取评论 => 每次抓10条;
 const getComments = params => {
-    return myAxios.get("/api/getComments",params)
+    return myAxios.get("/api/getComments",params).then(res=>{
+        if(res.data.comments.length === 0){
+            // console.log("评论重试")
+            return myAxios.get("/api/getComments",params)
+        }else{
+            return res
+        }
+    })
 }
 
 
