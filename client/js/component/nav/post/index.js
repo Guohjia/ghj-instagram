@@ -48,7 +48,7 @@ export default class Post extends Component{
     }
 
     publish(){
-        if(!this.state.content){message.info("说些什么再发布吧");return;}
+        if(!this.state.content.trim()){message.info("说些什么再发布吧");return;}
         if(!this.state.pvUrl){message.info("上传图片分享下吧");return;}
         this.setState(Object.assign(this.state,{pubLoading:true})) //回调函数里面设置为false;
         let { content,pvUrl } = this.state;

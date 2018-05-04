@@ -104,7 +104,7 @@ const reqComment = params => {
 const getComments = params => {
     return myAxios.get("/api/getComments",params).then(res=>{
         if(res.data.comments.length === 0){
-            // console.log("评论重试")
+            console.log("评论重试")
             return myAxios.get("/api/getComments",params)
         }else{
             return res

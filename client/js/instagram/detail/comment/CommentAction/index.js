@@ -2,7 +2,7 @@
 import React,{Component} from "react";
 import Style from "./index.less";
 import { Input } from "antd";
-import { icon as Icon,Modal } from "antd";
+import { icon as Icon,Modal,message } from "antd";
 import { connect } from "react-redux";
 import { LIKE,UNLIKE,COLLECT,UNCOLLECT } from "../../../../store/action/user";
 import { LIKE_NUM,UNLIKE_NUM,COLLECT_NUM,UNCOLLECT_NUM } from "../../../../store/action/post";
@@ -17,7 +17,6 @@ let TORENDER=false;
 @connect(
     store => {
         TORENDER=!TORENDER;
-        console.log(store)
         return {
             like:store.user.like,
             likeNum:store.post.likeNum,
@@ -118,7 +117,7 @@ export default class CommentAction extends Component{
     }
 
     onComment(e,post){
-        if(!e.target.value){return;}
+        if(!e.target.value.trim()){message.error("评论内容不能为空哦 😣");return;}
         let content = e.target.value;
         reqComment({
             content:content,
