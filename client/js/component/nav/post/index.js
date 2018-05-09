@@ -65,7 +65,8 @@ export default class Post extends Component{
             this.setState(Object.assign(this.state,{pubLoading:false}));
             store.dispatch(POST(res.data.id))
             this.props.modalClose();
-            message.success("发布成功👍🤣")
+            message.success("发布成功👍🤣");
+            window.location.reload();
         })
     }
 }
