@@ -1,8 +1,9 @@
 # preview
 A Instagram-Clone WebApp with some  features!! 😉😊📸
-![img](http://ovqcrw9cu.bkt.clouddn.com/Fqjf-AmPQeZoF8NH8NCyct3-hvky)
+![Aaron Swartz](http://ovqcrw9cu.bkt.clouddn.com/Fqjf-AmPQeZoF8NH8NCyct3-hvky)
+
 # Useage
-1.First,you should install [MongoDB](https://docs.mongodb.com/manual/reference/command/) and create a DB called Instagram
+1.First,you should install [MongoDB](https://docs.mongodb.com/manual/reference/command/) and create a DB called instagram
 
 2.Install all dependencies:
 ```js
