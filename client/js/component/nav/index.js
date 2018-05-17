@@ -21,9 +21,9 @@ export default class Nav extends Component{
                 <div className={this.state.transformClass}>
                     <div className="u-icon icon_left">
                         <a href="javascript:void(0)" className="bg_icon" onClick={this.toPost}>Ghj_Instagram</a>
-                        <Modal goback={()=>{this.setState(Object.assign(this.state,{post:false}))}} show={this.state.post}>
+                        <Modal goback={()=>{this.setState({post:false})}} show={this.state.post}>
                             <div className="m-post">
-                                <Post modalClose={()=>{this.setState(Object.assign(this.state,{post:false}))}}/>
+                                <Post modalClose={()=>{this.setState({post:false})}}/>
                             </div>
                         </Modal>
                     </div>
@@ -41,16 +41,16 @@ export default class Nav extends Component{
     }
     toPost(){
         if(!window.login_user){return window.location.href = "/login";}
-        this.setState(Object.assign(this.state,{post:true}))
+        this.setState({post:true})
     }
     onScroll(event){
         if(!event.srcElement.scrollingElement){return;}
         let scroll_Y=event.srcElement.scrollingElement.scrollTop;
-        scroll_Y>0?this.setState(Object.assign(this.state,{
+        scroll_Y>0?this.setState({
             transformClass:"m-nav m-nav-scroll"
-        })):this.setState(Object.assign(this.state,{
+        }):this.setState({
             transformClass:"m-nav"
-        }));
+        });
     }
     componentDidMount(){
         window.addEventListener("scroll",this.onScroll)

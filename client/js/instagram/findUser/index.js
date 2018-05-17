@@ -47,19 +47,19 @@ export default class FindUser extends Component{
     }
 
     moreUsers(){
-        this.setState(Object.assign(this.state,{spin:true}))
+        this.setState({spin:true})
         getUsers().then( res =>{
-            this.setState(Object.assign(this.state,{users:res.data.users}))
+            this.setState({users:res.data.users})
             setTimeout(()=>{
-                this.setState(Object.assign(this.state,{spin:false}))
+                this.setState({spin:false})
             },800)
         })
     }
 
     followLoading(loading){
-        this.setState(Object.assign(this.state,{
+        this.setState({
             follow_load:loading
-        }))
+        })
     }
 
     render(){

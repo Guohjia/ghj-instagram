@@ -39,18 +39,18 @@ export default class Post extends Component{
     getContent(event){
         if(!event.target.value){return;}
         let textValue = event.target.value;
-        this.setState(Object.assign(this.state,{content:textValue}))
+        this.setState({content:textValue})
     }
     
     getUrl(url){
         if(!url){return;}
-        this.setState(Object.assign(this.state,{pvUrl:url}))
+        this.setState({pvUrl:url})
     }
 
     publish(){
         if(!this.state.content.trim()){message.info("说些什么再发布吧");return;}
         if(!this.state.pvUrl){message.info("上传图片分享下吧");return;}
-        this.setState(Object.assign(this.state,{pubLoading:true})) //回调函数里面设置为false;
+        this.setState({pubLoading:true}) //回调函数里面设置为false;
         let { content,pvUrl } = this.state;
         let post = {
             content:content,
@@ -62,7 +62,7 @@ export default class Post extends Component{
         }
         
         sendPost(post).then((res)=>{
-            this.setState(Object.assign(this.state,{pubLoading:false}));
+            this.setState({pubLoading:false});
             store.dispatch(POST(res.data.id))
             this.props.modalClose();
             message.success("发布成功👍🤣");

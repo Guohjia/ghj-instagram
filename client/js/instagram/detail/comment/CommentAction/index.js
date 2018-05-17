@@ -100,12 +100,12 @@ export default class CommentAction extends Component{
     }
 
     handleCancel(){
-        this.setState(Object.assign(this.state,{logIn_Modal:false}))
+        this.setState({logIn_Modal:false})
     }
 
     ifLogin(){
         if(!window.login_user){
-            this.setState(Object.assign(this.state,{logIn_Modal:true}))
+            this.setState({logIn_Modal:true})
             return false;
         }else{
             return true;
@@ -113,7 +113,7 @@ export default class CommentAction extends Component{
     }
 
     onInput(e){
-        this.setState(Object.assign(this.state,{commentValue:e.target.value}));
+        this.setState({commentValue:e.target.value});
     }
 
     onComment(e,post){
@@ -130,7 +130,7 @@ export default class CommentAction extends Component{
                 _id:res.data.id
             };
             this.props.addComment(newComment);
-            this.setState(Object.assign(this.state,{commentValue:""}));
+            this.setState({commentValue:""});
         })
     }
 }

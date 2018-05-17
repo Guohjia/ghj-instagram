@@ -6,7 +6,8 @@ export default class PicturesWall extends Component {
   state = {
       previewVisible: false,
       previewImage: "",
-      fileList: []
+      fileList: [],
+      upload_token:"HjqY4nn-N7JIBvt1YPDzj4gHjhEte-asl4hQdxHz:NHVUgiTeHWyxR3RqQWIP0y4OKrE=:eyJzY29wZSI6Im11c2ljIiwiZGVhZGxpbmUiOjE4NjI4NDUyMDB9"
   };
 
   handleCancel = () => this.setState({ previewVisible: false })
@@ -27,7 +28,7 @@ export default class PicturesWall extends Component {
   }
 
   render() {
-      const { previewVisible, previewImage, fileList} = this.state;
+      const { previewVisible, previewImage, fileList,upload_token } = this.state;
       const uploadButton = (
           <div>
               <Icon type="upload" />
@@ -40,7 +41,7 @@ export default class PicturesWall extends Component {
                   action="http://upload.qiniup.com/"
                   listType="picture-card"
                   fileList={fileList}
-                  //   data={{token:upload_token}}
+                  data={{token:upload_token}}
                   onPreview={this.handlePreview}
                   onChange={this.handleChange.bind(this)}
               >

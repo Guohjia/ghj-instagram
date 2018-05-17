@@ -44,9 +44,9 @@ export default class UserInfor extends Component {
         let { response } = file;
         if(response.hash){
             let userImg="http://ovqcrw9cu.bkt.clouddn.com/"+response.hash+"?imageView2/1/w/150/h/150/format/png/q/75|imageslim";
-            this.setState(Object.assign(this.state,{
+            this.setState({
                 userImg:userImg
-            }))
+            })
             updateProtrait({userImg:userImg}).then(()=>{message.success("成功更新头像")})
         }
     }
