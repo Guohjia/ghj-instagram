@@ -1,7 +1,23 @@
-const LIKE = (id) => ({
-    type: "LIKE",
-    id:id
-})
+import { reqLike } from "../../util/request";
+import { LIKE_NUM } from "./post";
+
+const LIKE = (id) => {
+    return function (dispatch,getState) {
+        reqLike({id:id}).then(res =>{ 
+            dispatch({
+                type: "LIKE",
+                id:id
+            });
+            dispatch(LIKE_NUM) 
+        })
+    }
+}
+
+
+// const LIKE = (id) => ({
+//     type: "LIKE",
+//     id:id
+// })
 
 const UNLIKE = (id) => ({
     type: "UNLIKE",

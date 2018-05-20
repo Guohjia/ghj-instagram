@@ -5,9 +5,9 @@ import { Input } from "antd";
 import { icon as Icon,Modal,message } from "antd";
 import { connect } from "react-redux";
 import { LIKE,UNLIKE,COLLECT,UNCOLLECT } from "../../../../store/action/user";
-import { LIKE_NUM,UNLIKE_NUM,COLLECT_NUM,UNCOLLECT_NUM } from "../../../../store/action/post";
+import { UNLIKE_NUM,COLLECT_NUM,UNCOLLECT_NUM } from "../../../../store/action/post";
 import PropTypes from "prop-types";
-import { reqLike,reqUnLike,reqCollect,reqUnCollect,reqComment } from "../../../../util/request";
+import { reqUnLike,reqCollect,reqUnCollect,reqComment } from "../../../../util/request";
 import { dateDuration } from "../../../../util/fn";
 
 let TORENDER=false; 
@@ -28,7 +28,7 @@ let TORENDER=false;
     dispatch => {
         return {
             onLike:id=>{
-                reqLike({id:id}).then(res =>{ dispatch(LIKE(id));dispatch(LIKE_NUM) })
+                dispatch(LIKE(id))
             },
             unLike:id =>{
                 reqUnLike({id:id}).then(res =>{ dispatch(UNLIKE(id));dispatch(UNLIKE_NUM) })
