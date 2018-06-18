@@ -113,7 +113,7 @@ const getComments = params => {
 }
 
 
-module.exports = {
+export {
     signIn,
     signUp,
     signOut,

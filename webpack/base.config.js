@@ -1,7 +1,8 @@
 const path = require('path');
 // const ExtractTextPlugin = require("extract-text-webpack-plugin"); //分离css文件 //这个插件再看看用法
-const HtmlWebpackPlugin = require('html-webpack-plugin'); //js/css文件填充 //这个插件再看看用法
-const autoprefixer = require('autoprefixer'); //自动添加前缀,再看看用法
+// const HtmlWebpackPlugin = require('html-webpack-plugin'); //js/css文件填充 //这个插件再看看用法
+// const autoprefixer = require('autoprefixer'); //自动添加前缀,再看看用法
+// const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const webpack = require('webpack');
 
 console.log('webpack  compiling...')
@@ -62,4 +63,4 @@ module.exports = {
         filename: 'js/[name].js'
       })
     ]
-}
+}   

@@ -38,7 +38,7 @@ export default class UserInfor extends Component {
         )
     }
 
-    handleChange = ({ fileList,file }) => {
+    handleChange({ fileList,file }){
         if(file.status === "error"){message.error("上传图片出错");return;}
         if(file.status!== "done"){return;}
         let { response } = file;

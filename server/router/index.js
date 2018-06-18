@@ -20,6 +20,7 @@ const AppRouter = (app)=>{
             params=JSON.parse(JSON.stringify(ctx.session.user));
         }
         params.pageTitle='Instagram';
+        // ctx.set('expires',new Date().getTime() + 86400000);
         await ctx.render('index', params)
     });
     
@@ -45,7 +46,6 @@ const AppRouter = (app)=>{
     });
 
     router.get('/profile/detail/:id', async (ctx, next) => {
-        console.log(1222)
         if(ctx.session.user){
             let matchUser = await User.findOne({userName: ctx.session.user.userName}).catch(err => {console.log(err);});
             if(matchUser){ctx.session.user = matchUser;}

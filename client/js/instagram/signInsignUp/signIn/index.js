@@ -13,7 +13,7 @@ class NormalLoginForm extends Component {
         //     redirectToReferrer:false
         // }
     }
-    handleSubmit = (e) => {
+    handleSubmit(e){
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
